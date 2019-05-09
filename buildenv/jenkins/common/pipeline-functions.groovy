@@ -567,7 +567,11 @@ def cleanup_artifactory(artifactory_manual_cleanup, job_name, artifactory_server
                 string(name: 'ARTIFACTORY_NUM_ARTIFACTS', value: artifactory_num_artifacts)]
 
             build job: 'Cleanup_Artifactory', parameters: cleanup_job_params, wait: false
+<<<<<<< HEAD:buildenv/jenkins/common/pipeline-functions.groovy
         } catch (any) {
+=======
+        } catch (any){
+>>>>>>> b21d41af7 (spelling: available):buildenv/jenkins/common/pipeline-functions
             echo 'The Cleanup_Artifactory job is not available'
         }
     }
