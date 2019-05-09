@@ -1128,7 +1128,7 @@ ROMClassBuilder::finishPrepareAndLaydown(
  *                   + AccClassNeedsStaticConstantInit
  *                  + AccClassIntermediateDataIsClassfile
  *                 + AccClassUnsafe
- *                + AccClassAnnnotionRefersDoubleSlotEntry
+ *                + AccClassAnnotationRefersDoubleSlotEntry
  *
  *              + AccClassBytecodesModified
  *             + AccClassHasEmptyFinalize
@@ -1250,7 +1250,7 @@ ROMClassBuilder::computeExtraModifiers(ClassFileOracle *classFileOracle, ROMClas
 	}
 
 	if (classFileOracle->annotationRefersDoubleSlotEntry()) {
-		modifiers |= J9AccClassAnnnotionRefersDoubleSlotEntry;
+		modifiers |= J9AccClassAnnotationRefersDoubleSlotEntry;
 	}
 
 	if (context->isIntermediateDataAClassfile()) {
