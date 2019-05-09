@@ -94,7 +94,7 @@ J9::X86::CodeGenerator::initialize()
       }
 
    cg->setSupportsPartialInlineOfMethodHooks();
-   cg->setSupportsInliningOfTypeCoersionMethods();
+   cg->setSupportsInliningOfTypeCoercionMethods();
    cg->setSupportsNewInstanceImplOpt();
 
    TR_ASSERT_FATAL(comp->compileRelocatableCode() || comp->isOutOfProcessCompilation() || comp->target().cpu.supportsFeature(OMR_FEATURE_X86_SSE4_1) == cg->getX86ProcessorInfo().supportsSSE4_1(), "supportsSSE4_1() failed\n");
