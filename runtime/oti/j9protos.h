@@ -1145,7 +1145,7 @@ typedef struct J9MethodFromSignatureWalkState {
 /**
  * Cleans up the iterator after matching all methods found.
  *
- * @param state The inlialized iterator state
+ * @param state The initialized iterator state
  */
 extern J9_CFUNC void
 allMethodsFromSignatureEndDo(J9MethodFromSignatureWalkState *state);
@@ -1153,7 +1153,7 @@ allMethodsFromSignatureEndDo(J9MethodFromSignatureWalkState *state);
 /**
  * Advances the iterator looking for the next method matching the exact signature provided during initialization.
  *
- * @param state The inlialized iterator state
+ * @param state The initialized iterator state
  *
  * @return      J9Method matching the exact signature provided during initialization of the iterator in the class loader
  *              if it exists; NULL if no such method is found.
