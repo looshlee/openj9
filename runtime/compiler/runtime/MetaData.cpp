@@ -1591,7 +1591,7 @@ createMethodMetaData(
          }
 
       // totalAllocated space is in comp object
-      TR_ASSERT(comp->getTotalNeededDataCacheSpace() == aotMethodHeaderEntry->compileMethodDataSize, "Size missmatach");
+      TR_ASSERT(comp->getTotalNeededDataCacheSpace() == aotMethodHeaderEntry->compileMethodDataSize, "Size mismatch");
       }
 #endif
 
