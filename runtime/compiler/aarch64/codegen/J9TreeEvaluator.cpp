@@ -962,7 +962,7 @@ J9::ARM64::TreeEvaluator::monexitEvaluator(TR::Node *node, TR::CodeGenerator *cg
    op = fej9->generateCompressedLockWord() ? TR::InstOpCode::ldrimmw : TR::InstOpCode::ldrimmx;
    auto faultingInstruction = generateTrg1MemInstruction(cg, op, node, dataReg, new (cg->trHeapMemory()) TR::MemoryReference(addrReg, (int32_t)0, cg));
 
-   // InstructonDelegate::setupImplicitNullPointerException checks if the memory reference uses nullcheck reference register.
+   // InstructionDelegate::setupImplicitNullPointerException checks if the memory reference uses nullcheck reference register.
    // In this case, nullcheck reference register is objReg, but the memory reference does not use it,
    // thus we need to explicitly set implicit exception point here.
    if (cg->getHasResumableTrapHandler() && cg->getCurrentEvaluationTreeTop()->getNode()->getOpCode().isNullCheck())
@@ -2855,7 +2855,7 @@ J9::ARM64::TreeEvaluator::monentEvaluator(TR::Node *node, TR::CodeGenerator *cg)
    op = fej9->generateCompressedLockWord() ? TR::InstOpCode::ldxrw : TR::InstOpCode::ldxrx;
    auto faultingInstruction = generateTrg1MemInstruction(cg, op, node, dataReg, new (cg->trHeapMemory()) TR::MemoryReference(addrReg, (int32_t)0, cg));
 
-   // InstructonDelegate::setupImplicitNullPointerException checks if the memory reference uses nullcheck reference register.
+   // InstructionDelegate::setupImplicitNullPointerException checks if the memory reference uses nullcheck reference register.
    // In this case, nullcheck reference register is objReg, but the memory reference does not use it,
    // thus we need to explicitly set implicit exception point here.
    if (cg->getHasResumableTrapHandler() && cg->getCurrentEvaluationTreeTop()->getNode()->getOpCode().isNullCheck())
