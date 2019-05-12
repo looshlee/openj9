@@ -938,10 +938,10 @@ void aotWideExceptionEntriesFixEndian(J9JITExceptionTable * methodMetaData)
        ((U_8 *)j9dst_priv)[3] = ((U_8 *)&j9src_priv)[0]; \
        }
 
-    UDATA numExcptionRanges = ((UDATA)methodMetaData->numExcptionRanges) & ~(J9_JIT_METADATA_WIDE_EXCEPTIONS | J9_JIT_METADATA_HAS_BYTECODE_PC);
+    UDATA numExceptionRanges = ((UDATA)methodMetaData->numExceptionRanges) & ~(J9_JIT_METADATA_WIDE_EXCEPTIONS | J9_JIT_METADATA_HAS_BYTECODE_PC);
     J9JIT32BitExceptionTableEntry *excptEntry32 = get32BitFirstExceptionDataField(methodMetaData);
 
-    while(numExcptionRanges > 0)
+    while(numExceptionRanges > 0)
        {
        UDATA hasBytecodePC;
        J9_AOT_FIX_ENDIAN(excptEntry32->startPC)
@@ -949,14 +949,14 @@ void aotWideExceptionEntriesFixEndian(J9JITExceptionTable * methodMetaData)
        J9_AOT_FIX_ENDIAN(excptEntry32->handlerPC)
        J9_AOT_FIX_ENDIAN(excptEntry32->catchType)
        J9_AOT_FIX_ENDIAN(excptEntry32->ramMethod)
-       hasBytecodePC = ((UDATA)methodMetaData->numExcptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC;
-       if (hasBytecodePC)/*((UDATA)methodMetaData->numExcptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC )*/
+       hasBytecodePC = ((UDATA)methodMetaData->numExceptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC;
+       if (hasBytecodePC)/*((UDATA)methodMetaData->numExceptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC )*/
           {
           J9_AOT_FIX_ENDIAN_INDIRECT(get32BitByteCodeIndexFromExceptionTable(methodMetaData))/*excptEntry32)*/
   /*        excptEntry32 = (J9JIT32BitExceptionTableEntry *) (((U_8 *) excptEntry32) + sizeof(U_32));*/
           }
        excptEntry32 = get32BitNextExceptionTableEntryFSD(excptEntry32, hasBytecodePC);
-       numExcptionRanges--;
+       numExceptionRanges--;
        }
 #undef J9_AOT_FIX_ENDIAN
 #undef J9_AOT_FIX_ENDIAN_INDIRECT
@@ -983,11 +983,11 @@ void aot2ByteExceptionEntriesFixEndian(J9JITExceptionTable * methodMetaData)
        ((U_8 *)j9dst_priv)[2] = ((U_8 *)&j9src_priv)[1]; \
        ((U_8 *)j9dst_priv)[3] = ((U_8 *)&j9src_priv)[0]; \
        }
-    UDATA numExcptionRanges = ((UDATA)methodMetaData->numExcptionRanges) & ~(J9_JIT_METADATA_WIDE_EXCEPTIONS | J9_JIT_METADATA_HAS_BYTECODE_PC);
+    UDATA numExceptionRanges = ((UDATA)methodMetaData->numExceptionRanges) & ~(J9_JIT_METADATA_WIDE_EXCEPTIONS | J9_JIT_METADATA_HAS_BYTECODE_PC);
     J9JIT16BitExceptionTableEntry *excptEntry16 = get16BitFirstExceptionDataField(methodMetaData); /*(J9JIT16BitExceptionTableEntry *)(methodMetaData + 1);*/
 
 
-    while(numExcptionRanges > 0)
+    while(numExceptionRanges > 0)
        {
        UDATA hasBytecodePC;
        J9_AOT_FIX_ENDIAN_HALF(excptEntry16->startPC)
@@ -995,14 +995,14 @@ void aot2ByteExceptionEntriesFixEndian(J9JITExceptionTable * methodMetaData)
        J9_AOT_FIX_ENDIAN_HALF(excptEntry16->handlerPC)
        J9_AOT_FIX_ENDIAN_HALF(excptEntry16->catchType)
 /*     ++excptEntry16;*/
-       hasBytecodePC = ((UDATA)methodMetaData->numExcptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC;
-       if (hasBytecodePC) /*((UDATA)methodMetaData->numExcptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC ) */
+       hasBytecodePC = ((UDATA)methodMetaData->numExceptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC;
+       if (hasBytecodePC) /*((UDATA)methodMetaData->numExceptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC ) */
           {
           J9_AOT_FIX_ENDIAN_INDIRECT(get16BitByteCodeIndexFromExceptionTable(methodMetaData));/*excptEntry16);*/
 /*         excptEntry16 = (J9JIT16BitExceptionTableEntry *) (((U_8 *) excptEntry16) + sizeof(U_32));*/
           }
        excptEntry16 = get16BitNextExceptionTableEntryFSD(excptEntry16, hasBytecodePC);
-       numExcptionRanges--;
+       numExceptionRanges--;
        }
 #undef J9_AOT_FIX_ENDIAN_HALF
 #undef J9_AOT_FIX_ENDIAN_INDIRECT
@@ -1038,14 +1038,14 @@ void aotExceptionEntryFixEndian(J9JITExceptionTable * methodMetaData)
     }
 
 
-   if (methodMetaData->numExcptionRanges)
+   if (methodMetaData->numExceptionRanges)
       {
-      UDATA numExcptionRanges = ((UDATA)methodMetaData->numExcptionRanges) & ~(J9_JIT_METADATA_WIDE_EXCEPTIONS | J9_JIT_METADATA_HAS_BYTECODE_PC);
-      if ( ((UDATA)methodMetaData->numExcptionRanges) & J9_JIT_METADATA_WIDE_EXCEPTIONS )
+      UDATA numExceptionRanges = ((UDATA)methodMetaData->numExceptionRanges) & ~(J9_JIT_METADATA_WIDE_EXCEPTIONS | J9_JIT_METADATA_HAS_BYTECODE_PC);
+      if ( ((UDATA)methodMetaData->numExceptionRanges) & J9_JIT_METADATA_WIDE_EXCEPTIONS )
          {
          /* 4 byte exception range entries */
          J9JIT32BitExceptionTableEntry *excptEntry32 = (J9JIT32BitExceptionTableEntry *)(methodMetaData + 1);
-         while(numExcptionRanges > 0)
+         while(numExceptionRanges > 0)
             {
             J9_AOT_FIX_ENDIAN(excptEntry32->startPC)
             J9_AOT_FIX_ENDIAN(excptEntry32->endPC)
@@ -1053,31 +1053,31 @@ void aotExceptionEntryFixEndian(J9JITExceptionTable * methodMetaData)
             J9_AOT_FIX_ENDIAN(excptEntry32->catchType)
             J9_AOT_FIX_ENDIAN(excptEntry32->ramMethod)
             ++excptEntry32;
-            if ( ((UDATA)methodMetaData->numExcptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC )
+            if ( ((UDATA)methodMetaData->numExceptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC )
                {
                J9_AOT_FIX_ENDIAN_INDIRECT(excptEntry32);
                excptEntry32 = (J9JIT32BitExceptionTableEntry *) (((U_8 *) excptEntry32) + sizeof(U_32));
                }
-            numExcptionRanges--;
+            numExceptionRanges--;
             }
          }
       else
          {
          /* 2 byte exception range entries */
          J9JIT16BitExceptionTableEntry *excptEntry16 = (J9JIT16BitExceptionTableEntry *)(methodMetaData + 1);
-         while(numExcptionRanges > 0)
+         while(numExceptionRanges > 0)
             {
             J9_AOT_FIX_ENDIAN_HALF(excptEntry16->startPC)
             J9_AOT_FIX_ENDIAN_HALF(excptEntry16->endPC)
             J9_AOT_FIX_ENDIAN_HALF(excptEntry16->handlerPC)
             J9_AOT_FIX_ENDIAN_HALF(excptEntry16->catchType)
             ++excptEntry16;
-            if ( ((UDATA)methodMetaData->numExcptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC )
+            if ( ((UDATA)methodMetaData->numExceptionRanges) & J9_JIT_METADATA_HAS_BYTECODE_PC )
                {
                J9_AOT_FIX_ENDIAN_INDIRECT(excptEntry16);
                excptEntry16 = (J9JIT16BitExceptionTableEntry *) (((U_8 *) excptEntry16) + sizeof(U_32));
                }
-            numExcptionRanges--;
+            numExceptionRanges--;
             }
          }
       }
@@ -1090,8 +1090,8 @@ void aotExceptionEntryFixEndian(J9JITExceptionTable * methodMetaData)
 U_32 getNumInlinedCallSites(J9JITExceptionTable * methodMetaData)
    {
    U_32 sizeOfInlinedCallSites, numInlinedCallSites = 0;
-   U_32 numExceptionRanges = methodMetaData->numExcptionRanges & 0x3FFF;
-   U_32 fourByteExceptionRanges = methodMetaData->numExcptionRanges & 0x8000;
+   U_32 numExceptionRanges = methodMetaData->numExceptionRanges & 0x3FFF;
+   U_32 fourByteExceptionRanges = methodMetaData->numExceptionRanges & 0x8000;
 
    if (methodMetaData->inlinedCalls)
       {
@@ -1271,7 +1271,7 @@ void aotMethodMetaDataFixEndian(J9JITExceptionTable * methodMetaData)
    J9_AOT_FIX_ENDIAN_HALF(methodMetaData->objectTempSlots)
    J9_AOT_FIX_ENDIAN_HALF(methodMetaData->prologuePushes)
    J9_AOT_FIX_ENDIAN_HALF(methodMetaData->tempOffset)
-   J9_AOT_FIX_ENDIAN_HALF(methodMetaData->numExcptionRanges)
+   J9_AOT_FIX_ENDIAN_HALF(methodMetaData->numExceptionRanges)
    J9_AOT_FIX_ENDIAN(methodMetaData->size)
    J9_AOT_FIX_ENDIAN(methodMetaData->registerSaveDescription)
    J9_AOT_FIX_ENDIAN(methodMetaData->gcStackAtlas)
@@ -1871,7 +1871,7 @@ static VMINLINE I_16 getJitTempOffset(J9TR_MethodMetaData * md)
 
 static VMINLINE U_16 getJitNumberOfExceptionRanges(J9TR_MethodMetaData * md)
    {
-   return md->numExcptionRanges;
+   return md->numExceptionRanges;
    }
 
 static VMINLINE I_32 getJitExceptionTableSize(J9TR_MethodMetaData * md)
@@ -1965,12 +1965,12 @@ static VMINLINE U_16 getJit16BitTableEntryCatchType(J9JIT16BitExceptionTableEntr
 
 static VMINLINE UDATA hasBytecodePC(J9TR_MethodMetaData * md)
    {
-   return md->numExcptionRanges & J9_JIT_METADATA_HAS_BYTECODE_PC;
+   return md->numExceptionRanges & J9_JIT_METADATA_HAS_BYTECODE_PC;
    }
 
 static VMINLINE UDATA hasWideExceptions(J9TR_MethodMetaData * md)
    {
-   return md->numExcptionRanges & J9_JIT_METADATA_WIDE_EXCEPTIONS;
+   return md->numExceptionRanges & J9_JIT_METADATA_WIDE_EXCEPTIONS;
    }
 
 UDATA hasFourByteOffset(J9TR_MethodMetaData * md)
@@ -2135,7 +2135,7 @@ UDATA getCurrentByteCodeIndexAndIsSameReceiver(J9TR_MethodMetaData * methodMetaD
 
 UDATA getJitPCOffsetFromExceptionHandler(J9TR_MethodMetaData * methodMetaData, void *jitPC)
    {
-   UDATA numberOfRanges = methodMetaData->numExcptionRanges;
+   UDATA numberOfRanges = methodMetaData->numExceptionRanges;
    UDATA relativePC = (UDATA) jitPC - methodMetaData->startPC;
 
    if (numberOfRanges & J9_JIT_METADATA_WIDE_EXCEPTIONS)
