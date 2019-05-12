@@ -1313,7 +1313,7 @@ public class VmArgumentTests {
 							":/opt/IBM/WebSphere/AppServer80/lib/urlprotocols.jar:/opt/IBM/WebSphere/AppServer80/deploytool/itp/batchboot.jar:/opt/IBM/WebSphere/AppServer80/deploytool/itp/batch2.jar" +
 							":/opt/IBM/WebSphere/AppServer80/java/lib/tools.jar"+":"+CLASSPATH;
 
-			String[] initalCmdLineArgs = {"-Declipse.security",
+			String[] initialCmdLineArgs = {"-Declipse.security",
 					"-Dosgi.install.area=/opt/IBM/WebSphere/AppServer80",
 					"-Dosgi.configuration.area=/opt/IBM/WebSphere/AppServer80/profiles/AppSrv01/servers/server1/configuration",
 					"-Djava.awt.headless=true",
@@ -1342,7 +1342,7 @@ public class VmArgumentTests {
 					"-Djava.security.auth.login.config=/opt/IBM/WebSphere/AppServer80/profiles/AppSrv01/properties/wsjaas.conf",
 			"-Djava.security.policy=/opt/IBM/WebSphere/AppServer80/profiles/AppSrv01/properties/server.policy"};
 
-			String[] initalExpectedArgs = {"-Declipse.security",
+			String[] initialExpectedArgs = {"-Declipse.security",
 					"-Dosgi.install.area=/opt/IBM/WebSphere/AppServer80",
 					"-Dosgi.configuration.area=/opt/IBM/WebSphere/AppServer80/profiles/AppSrv01/servers/server1/configuration",
 					"-Djava.awt.headless=true",
@@ -1378,16 +1378,16 @@ public class VmArgumentTests {
 			String[] cmdLineArgs;
 			String[] expectedArgs;
 			if (isJava8) {
-				cmdLineArgs = new String[initalCmdLineArgs.length + 1];
-				System.arraycopy(initalCmdLineArgs, 0, cmdLineArgs, 0, initalCmdLineArgs.length);
-				cmdLineArgs[initalCmdLineArgs.length] = "-Djava.ext.dirs=/opt/IBM/WebSphere/AppServer80/tivoli/tam:/opt/IBM/WebSphere/AppServer80/java/jre/lib/ext";
+				cmdLineArgs = new String[initialCmdLineArgs.length + 1];
+				System.arraycopy(initialCmdLineArgs, 0, cmdLineArgs, 0, initialCmdLineArgs.length);
+				cmdLineArgs[initialCmdLineArgs.length] = "-Djava.ext.dirs=/opt/IBM/WebSphere/AppServer80/tivoli/tam:/opt/IBM/WebSphere/AppServer80/java/jre/lib/ext";
 
-				expectedArgs = new String[initalExpectedArgs.length + 1];
-				System.arraycopy(initalExpectedArgs, 0, expectedArgs, 0, initalExpectedArgs.length);
-				expectedArgs[initalExpectedArgs.length] = "-Djava.ext.dirs=/opt/IBM/WebSphere/AppServer80/tivoli/tam:/opt/IBM/WebSphere/AppServer80/java/jre/lib/ext";
+				expectedArgs = new String[initialExpectedArgs.length + 1];
+				System.arraycopy(initialExpectedArgs, 0, expectedArgs, 0, initialExpectedArgs.length);
+				expectedArgs[initialExpectedArgs.length] = "-Djava.ext.dirs=/opt/IBM/WebSphere/AppServer80/tivoli/tam:/opt/IBM/WebSphere/AppServer80/java/jre/lib/ext";
 			} else {
-				cmdLineArgs = initalCmdLineArgs.clone();
-				expectedArgs = initalExpectedArgs.clone();
+				cmdLineArgs = initialCmdLineArgs.clone();
+				expectedArgs = initialExpectedArgs.clone();
 			}
 
 			try {
