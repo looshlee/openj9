@@ -4788,7 +4788,7 @@ TR_CISCTransformer::analyzeArrayHeaderConst()
                      }
                   if (loadNode->getOpcode() == TR_variable)
                      {
-                     // Fail. Not implemeted yet.
+                     // Fail. Not implemented yet.
                      }
                   else
                      {
@@ -6041,7 +6041,7 @@ TR_CISCTransformer::modifyBlockByVersioningCheck(TR::Block *block, TR::TreeTop *
          {
          block = TR::Block::createEmptyBlock(startTop->getNode(), comp(), block->getFrequency(), block);
          if (!lastBlock) lastBlock = block;
-         TR_ASSERT(cmp->getOpCode().isIf(), "Not implemeted yet");
+         TR_ASSERT(cmp->getOpCode().isIf(), "Not implemented yet");
          cmp->setBranchDestination(slowpad->getEntry());
          block->append(TR::TreeTop::create(comp(), cmp));
          cfg->insertBefore(block, firstBlock);
