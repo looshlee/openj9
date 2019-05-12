@@ -1756,7 +1756,7 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
    int32_t callerIndex = bci.getCallerIndex();
    int32_t frequency = getRawCount(callerIndex < 0 ? comp->getMethodSymbol() : comp->getInlinedResolvedMethodSymbol(callerIndex), bci, _callSiteInfo, maxCount, comp);
    if (trace)
-      traceMsg(comp,"raw frequency on outter level was %d for bci %d:%d\n", frequency, bci.getCallerIndex(), bci.getByteCodeIndex());
+      traceMsg(comp,"raw frequency on outer level was %d for bci %d:%d\n", frequency, bci.getCallerIndex(), bci.getByteCodeIndex());
    if (frequency > -1 || _counterDerivationInfo == NULL)
       return frequency;
 
@@ -1781,8 +1781,8 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
       // step 2 - find the level at which the inlining has begun to differ for the previous compile
       // eg find the point where the current profiling info has no profiling data for the given bci
       TR_ByteCodeInfo lastProfiledBCI = bciToCheck;
-      int64_t outterProfiledFrequency = getRawCount(comp->getMethodSymbol(), bciToCheck, _callSiteInfo, maxCount, comp);
-      if (outterProfiledFrequency == 0)
+      int64_t outerProfiledFrequency = getRawCount(comp->getMethodSymbol(), bciToCheck, _callSiteInfo, maxCount, comp);
+      if (outerProfiledFrequency == 0)
          return 0;
 
       while (!callStack.empty())
@@ -1798,7 +1798,7 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
          if (callerFrequency < 0)
             {
             if (trace)
-               traceMsg(comp, "  found frame for %s with no outter profiling info\n", resolvedMethodSymbol->signature(comp->trMemory()));
+               traceMsg(comp, "  found frame for %s with no outer profiling info\n", resolvedMethodSymbol->signature(comp->trMemory()));
             // has this method been compiled so we might have had a chance to profile it?
             if (!resolvedMethod->isInterpretedForHeuristics()
                 && !resolvedMethod->isNative()
@@ -1839,7 +1839,7 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
                         if (computedFrequency > -1)
                            {
                            traceMsg(comp, " effective caller %s gave frequency %d\n", resolvedMethodSymbol->signature(comp->trMemory()), computedFrequency);
-                           frequency = (int32_t)((outterProfiledFrequency * computedFrequency) / innerFrequencyScale);
+                           frequency = (int32_t)((outerProfiledFrequency * computedFrequency) / innerFrequencyScale);
                            break;
                            }
                         }
@@ -1890,7 +1890,7 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
                      {
                      //if (TR::Options::isAnyVerboseOptionSet())
                      //   TR_VerboseLog::writeLineLocked(TR_Vlog_INFO, " BFINFO: %s [%s:%d] - from IProfiler", comp->signature(), (bci.getCallerIndex() < 0 ? comp->getMethodSymbol() : comp->getInlinedResolvedMethodSymbol(bci.getCallerIndex()))->signature(comp->trMemory()), bci.getByteCodeIndex());
-                     frequency = (int32_t)((outterProfiledFrequency * computedFrequency) / (innerFrequencyScale * entryFrequency));
+                     frequency = (int32_t)((outerProfiledFrequency * computedFrequency) / (innerFrequencyScale * entryFrequency));
                      break;
                      }
                   }
@@ -1901,7 +1901,7 @@ TR_BlockFrequencyInfo::getFrequencyInfo(
          else
             {
             lastProfiledBCI = bciToCheck;
-            outterProfiledFrequency = callerFrequency;
+            outerProfiledFrequency = callerFrequency;
             }
          }
       }
