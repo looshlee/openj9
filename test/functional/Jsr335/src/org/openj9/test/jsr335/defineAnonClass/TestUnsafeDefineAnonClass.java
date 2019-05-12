@@ -129,14 +129,14 @@ public class TestUnsafeDefineAnonClass {
 	 * @param fieldName, name of the field
 	 * @param anonInstance, instance of anonClass
 	 * @param anonClass, 
-	 * @param illegalAccess, set when IllegalAccessExcpetion is expected
+	 * @param illegalAccess, set when IllegalAccessException is expected
 	 * 
 	 */
 	private void testIntField(String fieldName, Object anonInstance, Class<?> anonClass, boolean illegalAccess) {
 		try {
 			Field f = anonClass.getDeclaredField(fieldName);
 			f.set(anonInstance, Integer.valueOf(CORRECT_ANSWER));
-			AssertJUnit.assertFalse("Expected IllegalAccessExcpetion, but exception did not occur!", illegalAccess);
+			AssertJUnit.assertFalse("Expected IllegalAccessException, but exception did not occur!", illegalAccess);
 			AssertJUnit.assertEquals("Field is not set to the correct value", CORRECT_ANSWER, f.getInt(anonInstance));
 		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException e) {
 			Assert.fail("UnexpectedException Occured: " + e);
@@ -152,7 +152,7 @@ public class TestUnsafeDefineAnonClass {
 	 * @param methodName, the name of the method
 	 * @param anonInstance, instance of the anonClass
 	 * @param anonClass
-	 * @param illegalAccess, set when IllegalAccessExcpetion is expected
+	 * @param illegalAccess, set when IllegalAccessException is expected
 	 * @param staticMethod, set when method is invoke on Class Object
 	 */
 	private void testIntMethod(String methodName, Object anonInstance, Class<?> anonClass, boolean illegalAccess, boolean staticMethod) {
@@ -165,7 +165,7 @@ public class TestUnsafeDefineAnonClass {
 				intanceOrClass = anonInstance;
 			}
 			Integer result = (Integer) m.invoke(intanceOrClass, (Object[]) null);
-			AssertJUnit.assertFalse("Expected IllegalAccessExcpetion, but exception did not occur!", illegalAccess);
+			AssertJUnit.assertFalse("Expected IllegalAccessException, but exception did not occur!", illegalAccess);
 			AssertJUnit.assertEquals("Method did not return the correct value", CORRECT_ANSWER, result.intValue());
 		} catch (InvocationTargetException | NoSuchMethodException | SecurityException | IllegalArgumentException e) {
 			Assert.fail("UnexpectedException Occured: " + e);
