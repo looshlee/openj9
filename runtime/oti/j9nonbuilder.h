@@ -4529,8 +4529,8 @@ typedef struct J9InternalVMFunctions {
 #endif /* J9VM_INTERP_SIG_QUIT_THREAD || J9VM_RAS_DUMP_AGENTS */
 	void  (JNICALL *initializeAttachedThread)(struct J9VMThread *vmContext, const char *name, j9object_t *group, UDATA daemon, struct J9VMThread *initializee) ;
 	void  ( *initializeMethodRunAddressNoHook)(struct J9JavaVM* vm, J9Method *method) ;
-	void  (JNICALL *sidecarInvokeReflectMethod)(struct J9VMThread *vmContext, jobject methodRef, jobject recevierRef, jobjectArray argsRef) ;
-	void  (JNICALL *sidecarInvokeReflectConstructor)(struct J9VMThread *vmContext, jobject constructorRef, jobject recevierRef, jobjectArray argsRef) ;
+	void  (JNICALL *sidecarInvokeReflectMethod)(struct J9VMThread *vmContext, jobject methodRef, jobject receiverRef, jobjectArray argsRef) ;
+	void  (JNICALL *sidecarInvokeReflectConstructor)(struct J9VMThread *vmContext, jobject constructorRef, jobject receiverRef, jobjectArray argsRef) ;
 	struct J9MemorySegmentList*  ( *allocateMemorySegmentListWithSize)(struct J9JavaVM * javaVM, U_32 numberOfMemorySegments, UDATA sizeOfElements, U_32 memoryCategory) ;
 	void  ( *freeMemorySegmentListEntry)(struct J9MemorySegmentList *segmentList, struct J9MemorySegment *segment) ;
 	void  ( *acquireExclusiveVMAccessFromExternalThread)(struct J9JavaVM * vm) ;
