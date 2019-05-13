@@ -1820,7 +1820,7 @@ int32_t TR::CompilationInfo::getCompBudget() const
    }
 
 void
-TR::CompilationInfo::decNumGCRReqestsQueued(TR_MethodToBeCompiled *entry)
+TR::CompilationInfo::decNumGCRRequestsQueued(TR_MethodToBeCompiled *entry)
    {
    if (entry->_GCRrequest) _numGCRQueued--;
    }
@@ -1832,7 +1832,7 @@ TR::CompilationInfo::incNumGCRRequestsQueued(TR_MethodToBeCompiled *entry)
    }
 
 void
-TR::CompilationInfo::decNumInvReqestsQueued(TR_MethodToBeCompiled *entry)
+TR::CompilationInfo::decNumInvRequestsQueued(TR_MethodToBeCompiled *entry)
    {
    if (entry->_entryIsCountedAsInvRequest)
       {
@@ -1851,8 +1851,8 @@ void
 TR::CompilationInfo::updateCompQueueAccountingOnDequeue(TR_MethodToBeCompiled *entry)
    {
    _numQueuedMethods--; // one less method in the queue
-   decNumGCRReqestsQueued(entry);
-   decNumInvReqestsQueued(entry);
+   decNumGCRRequestsQueued(entry);
+   decNumInvRequestsQueued(entry);
    if (entry->getMethodDetails().isOrdinaryMethod() && entry->_oldStartPC==0)
       {
       _numQueuedFirstTimeCompilations--;
