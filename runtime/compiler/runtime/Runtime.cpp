@@ -682,7 +682,7 @@ static void initS390ArrayCopyTable(uint8_t* code)
    // Linkage:  R14 is the return address
    //           R0 may be clobbered as part of the call
    //           R1,R2 are the dest/src arrays
-   static const uint8_t templat3[]     =
+   static const uint8_t template3[]     =
                                       "\xD2\x00\x10\x00\x20\x00"  // MVC 0(x,R1),0(R2)
                                       "\x07\xFE\x00\x00"          // BR R14
                                       "\x00\x00\x00\x00"
@@ -697,7 +697,7 @@ static void initS390ArrayCopyTable(uint8_t* code)
    memcpy(code, zeroTemplate, 16);
    for (int i=1; i<256; ++i)
       {
-      memcpy(&code[i<<4], templat3, 16);
+      memcpy(&code[i<<4], template3, 16);
       code[(i<<4) + 1] = (i-1);
       }
    }
@@ -709,7 +709,7 @@ static void initS390ArraySetZeroTable(uint8_t* code)
    // Linkage:  R14 is the return address
    //           R0 may be clobbered as part of the call
    //           R1 is the storage to clear
-   static const uint8_t templat3[]     =
+   static const uint8_t template3[]     =
                                       "\xD7\x00\x10\x00\x10\x00"  // XC 0(x,R1),0(R1)
                                       "\x07\xFE"                  // BR R14
                                       "\x00\x00\x00\x00"
@@ -724,7 +724,7 @@ static void initS390ArraySetZeroTable(uint8_t* code)
    memcpy(code, zeroTemplate, 16);
    for (int i=1; i<256; ++i)
       {
-      memcpy(&code[i<<4], templat3, 16);
+      memcpy(&code[i<<4], template3, 16);
       code[(i<<4) + 1] = (i-1);
       }
    }
@@ -737,7 +737,7 @@ static void initS390ArraySetGeneralTable(uint8_t* code)
    //           R0 may be clobbered as part of the call
    //           R1 is the storage to clear
    //           R2 contains the byte value
-   static const uint8_t templat3[]     =
+   static const uint8_t template3[]     =
                                       "\x42\x20\x10\x00"          // STC R2,0(,R1)
                                       "\xD2\x00\x10\x01\x10\x00"  // MVC 0(x,R1),1(R1)
                                       "\x07\xFE"                  // BR R14
@@ -758,7 +758,7 @@ static void initS390ArraySetGeneralTable(uint8_t* code)
    memcpy(&code[16], oneTemplate, 16);
    for (int i=2; i<256; ++i)
       {
-      memcpy(&code[i<<4], templat3, 16);
+      memcpy(&code[i<<4], template3, 16);
       code[(i<<4) + 5] = (i-2);
       }
    }
@@ -771,7 +771,7 @@ static void initS390ArrayCmpTable(uint8_t* code)
    //           R1,R2 are the dest/src arrays on input
    //           R0 may be clobbered as part of the call
    //           CC is set based on CLC operation for perusal from mainline code
-   static const uint8_t templat3[]     =
+   static const uint8_t template3[]     =
                                       "\xD5\x00\x10\x00\x20\x00"  // CLC 0(x,R1),0(R2)
                                       "\x07\xFE\x00\x00"          // BR R14
                                       "\x00\x00\x00\x00"
@@ -787,7 +787,7 @@ static void initS390ArrayCmpTable(uint8_t* code)
    memcpy(code, zeroTemplate, 16);
    for (int i=1; i<256; ++i)
       {
-      memcpy(&code[i<<4], templat3, 16);
+      memcpy(&code[i<<4], template3, 16);
       code[(i<<4) + 1] = (i-1);
       }
    }
@@ -802,7 +802,7 @@ static void initS390ArrayTranslateAndTestTable(uint8_t* code)
    //           R3 is the table address of TRT's input
    //           R0 may be clobbered as part of the call
    //           CC is set based on CLC operation for perusal from mainline code
-   static const uint8_t templat3[]     =
+   static const uint8_t template3[]     =
                                       "\xDD\x00\x10\x00\x30\x00"  // TRT 0(x,R1),0(R3)
                                       "\x07\xFE\x00\x00"          // BR R14
                                       "\x00\x00\x00\x00"
@@ -817,7 +817,7 @@ static void initS390ArrayTranslateAndTestTable(uint8_t* code)
    memcpy(code, zeroTemplate, 16);
    for (int i=1; i<256; ++i)
       {
-      memcpy(&code[i<<4], templat3, 16);
+      memcpy(&code[i<<4], template3, 16);
       code[(i<<4) + 1] = (i-1);
       }
    }
@@ -830,7 +830,7 @@ static void initS390Long2StringTable(uint8_t* code)
    //           R1 is the start address of UNPKU's input
    //           R2 is the start address of UNPKU's output
    //           CC is modified by UNPKU
-   static const uint8_t templat3[]     =
+   static const uint8_t template3[]     =
                                       "\xE2\x00\x20\x00\x10\x00"  // UNPKU 0(x,R2),0(R1)
                                       "\x07\xFE\x00\x00"          // BR R14
                                       "\x00\x00\x00\x00"
@@ -846,7 +846,7 @@ static void initS390Long2StringTable(uint8_t* code)
    memcpy(code, zeroTemplate, 16);
    for (int i=1; i<256; ++i)
       {
-      memcpy(&code[i<<4], templat3, 16);
+      memcpy(&code[i<<4], template3, 16);
       code[(i<<4) + 1] = (i << 1) - 1;
       }
    }
@@ -858,7 +858,7 @@ static void initS390ArrayBitOpMemTable(uint8_t* code, uint8_t opcode)
    // Linkage:  R14 is the return address
    //           R0 may be clobbered as part of the call
    //           R1,R2 are the dest/src arrays
-   static uint8_t templat3[]     =
+   static uint8_t template3[]     =
                                       "\x00\x00\x10\x00\x20\x00"  // SSInstruction 0(x,R1),0(R2)
                                       "\x07\xFE\x00\x00"          // BR R14
                                       "\x00\x00\x00\x00"
@@ -869,11 +869,11 @@ static void initS390ArrayBitOpMemTable(uint8_t* code, uint8_t opcode)
                                       "\x00\x00\x00\x00"
                                       "\x00\x00\x00\x00";
 
-   templat3[0] = opcode;
+   template3[0] = opcode;
    memcpy(code, zeroTemplate, 16);
    for (int i=1; i<256; ++i)
       {
-      memcpy(&code[i<<4], templat3, 16);
+      memcpy(&code[i<<4], template3, 16);
       code[(i<<4) + 1] = (i-1);
       }
    }
