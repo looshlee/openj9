@@ -2744,7 +2744,7 @@ TR_J9VMBase::maybeHighlyPolymorphic(TR::Compilation *comp, TR_ResolvedMethod *ca
    }
 
 
-bool TR_J9VMBase::supressInliningRecognizedInitialCallee(TR_CallSite* callsite, TR::Compilation* comp)
+bool TR_J9VMBase::suppressInliningRecognizedInitialCallee(TR_CallSite* callsite, TR::Compilation* comp)
    {
    static const char* OPT_DETAILS = "O^O INLINER: " ;
 

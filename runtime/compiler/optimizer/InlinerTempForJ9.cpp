@@ -4710,7 +4710,7 @@ TR_J9InlinerPolicy::validateArguments(TR_CallTarget *calltarget, TR_LinkHead<TR_
    }
 
 bool
-TR_J9InlinerPolicy::supressInliningRecognizedInitialCallee(TR_CallSite* callsite, TR::Compilation* comp)
+TR_J9InlinerPolicy::suppressInliningRecognizedInitialCallee(TR_CallSite* callsite, TR::Compilation* comp)
    {
    TR_ResolvedMethod * initialCalleeMethod = callsite->_initialCalleeMethod;
 
@@ -4739,7 +4739,7 @@ TR_J9InlinerPolicy::supressInliningRecognizedInitialCallee(TR_CallSite* callsite
             break;
          }
       }
-   return (callsite->_callNode && comp->fej9()->supressInliningRecognizedInitialCallee(callsite, comp));
+   return (callsite->_callNode && comp->fej9()->suppressInliningRecognizedInitialCallee(callsite, comp));
    }
 
 static bool
