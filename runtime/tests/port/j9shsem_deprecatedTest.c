@@ -339,7 +339,7 @@ j9shsem_deprecated_test4(J9PortLibrary *portLibrary, char* argv0)
 		case 0: /*Semaphore is opened*/
 			break;
 
-		case 1: /*sempahore is created*/
+		case 1: /*semaphore is created*/
 			if(created) {
 				outputErrorMessage(PORTTEST_ERROR_ARGS, "more then 1 child created the semaphore.\n");
 			} else {
@@ -885,7 +885,7 @@ j9shsem_deprecated_test7(J9PortLibrary *portLibrary, char* argv0)
 			case J9PORT_INFO_SHSEM_OPENED: /*Semaphore is opened*/	
 				numOpensReturned +=1;
 				break;
-			case  J9PORT_INFO_SHSEM_CREATED: /*sempahore is created*/
+			case  J9PORT_INFO_SHSEM_CREATED: /*semaphore is created*/
 				numCreatesReturned +=1;
 				break;
 			default: /*semaphore open call failed*/
