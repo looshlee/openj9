@@ -1170,7 +1170,7 @@ TR_J9EstimateCodeSize::realEstimateCodeSize(TR_CallTarget *calltarget, TR_CallSt
       bool ilgenSuccess = (NULL != methodSymbol->getResolvedMethod()->genMethodILForPeekingEvenUnderMethodRedefinition(methodSymbol, comp(), false, NULL));
       if (ilgenSuccess)
          {
-         heuristicTrace(tracer(), "*** Depth %d: ECS CSI -- peeking was successfull for calltarget %p", _recursionDepth, calltarget);
+         heuristicTrace(tracer(), "*** Depth %d: ECS CSI -- peeking was successful for calltarget %p", _recursionDepth, calltarget);
          _inliner->getUtil()->clearArgInfoForNonInvariantArguments(calltarget->_ecsPrexArgInfo, methodSymbol, tracer());
          wasPeekingSuccessfull = true;
          }
