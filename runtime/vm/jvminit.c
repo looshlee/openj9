@@ -2681,8 +2681,8 @@ static UDATA checkArgsConsumed(J9JavaVM * vm, J9PortLibrary* portLibrary, J9VMIn
 	UDATA i = 0;
 	PORT_ACCESS_FROM_PORT(portLibrary);
 	jboolean ignoreUnrecognized = j9vm_args->actualVMArgs->ignoreUnrecognized;
-	jboolean ignoreUnrecongizedTopLevelOption = JNI_FALSE;
-	jboolean ignoreUnrecongizedXXColonOptions = JNI_TRUE;
+	jboolean ignoreUnrecognizedTopLevelOption = JNI_FALSE;
+	jboolean ignoreUnrecognizedXXColonOptions = JNI_TRUE;
 	IDATA xxIgnoreUnrecognizedVMOptionsEnableIndex = -1;
 	IDATA xxIgnoreUnrecognizedVMOptionsDisableIndex = -1;
 	IDATA xxIgnoreUnrecognizedXXColonOptionsEnableIndex = -1;
@@ -2696,7 +2696,7 @@ static UDATA checkArgsConsumed(J9JavaVM * vm, J9PortLibrary* portLibrary, J9VMIn
 	if (xxIgnoreUnrecognizedVMOptionsEnableIndex >= 0) {
 		xxIgnoreUnrecognizedVMOptionsDisableIndex = findArgInVMArgs( PORTLIB, j9vm_args, EXACT_MATCH, VMOPT_XXIGNOREUNRECOGNIZEDVMOPTIONSDISABLE, NULL, TRUE);
 		if (xxIgnoreUnrecognizedVMOptionsEnableIndex > xxIgnoreUnrecognizedVMOptionsDisableIndex) {
-			ignoreUnrecongizedTopLevelOption = JNI_TRUE;
+			ignoreUnrecognizedTopLevelOption = JNI_TRUE;
 		}
 	}
 
@@ -2704,7 +2704,7 @@ static UDATA checkArgsConsumed(J9JavaVM * vm, J9PortLibrary* portLibrary, J9VMIn
 	if (xxIgnoreUnrecognizedXXColonOptionsDisableIndex >= 0) {
 		xxIgnoreUnrecognizedXXColonOptionsEnableIndex = findArgInVMArgs( PORTLIB, j9vm_args, EXACT_MATCH, VMOPT_XXIGNOREUNRECOGNIZEDXXCOLONOPTIONSENABLE, NULL, TRUE);
 		if (xxIgnoreUnrecognizedXXColonOptionsDisableIndex > xxIgnoreUnrecognizedXXColonOptionsEnableIndex) {
-			ignoreUnrecongizedXXColonOptions = JNI_FALSE;
+			ignoreUnrecognizedXXColonOptions = JNI_FALSE;
 		}
 	}
 
@@ -2736,11 +2736,11 @@ static UDATA checkArgsConsumed(J9JavaVM * vm, J9PortLibrary* portLibrary, J9VMIn
 				j9nls_printf(PORTLIB, J9NLS_ERROR, J9NLS_VM_INVALID_CMD_LINE_OPT, optString);
 			} else {
 				/* If ignoreUnrecognizedXXOptions is set to JNI_TRUE, we should ignore any options that start with -XX: */
-				if (ignoreUnrecongizedXXColonOptions && (0 == strncmp(optString, VMOPT_XX, (sizeof(VMOPT_XX) - 1)))) {
+				if (ignoreUnrecognizedXXColonOptions && (0 == strncmp(optString, VMOPT_XX, (sizeof(VMOPT_XX) - 1)))) {
 					continue;
 				}
-				/* If ignoreUnrecongizedTopLevelOption is set to JNI_TRUE, we should ignore any unrecognized top-level option */
-				if (ignoreUnrecongizedTopLevelOption) {
+				/* If ignoreUnrecognizedTopLevelOption is set to JNI_TRUE, we should ignore any unrecognized top-level option */
+				if (ignoreUnrecognizedTopLevelOption) {
 					continue;
 				}
 				j9nls_printf(PORTLIB, J9NLS_ERROR, J9NLS_VM_UNRECOGNISED_CMD_LINE_OPT, optString);
