@@ -4814,7 +4814,7 @@ typedef struct J9VMThread {
 	IDATA nonZeroTlhPrefetchFTA;
 	omrthread_monitor_t publicFlagsMutex;
 	UDATA publicFlags;
-#if defined(J9VM_ENV_DATA64) /* The ifdeffed field does not affect the aligmment check below */
+#if defined(J9VM_ENV_DATA64) /* The ifdeffed field does not affect the alignment check below */
 #if defined(OMR_GC_COMPRESSED_POINTERS) && defined(OMR_GC_FULL_POINTERS)
 	UDATA compressObjectReferences;
 #endif /* defined(OMR_GC_COMPRESSED_POINTERS) && defined(OMR_GC_FULL_POINTERS) */
