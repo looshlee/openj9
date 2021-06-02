@@ -785,7 +785,7 @@ TR::OptionTable OMR::Options::_feOptions[] = {
         TR::Options::setStaticNumeric, (intptr_t)&TR::Options::_hwProfilerBufferMaxPercentageToDiscard, 0, "F%d", NOT_IN_SUBSET},
    {"HWProfilerDisableAOT",           "O<nnn>\tDisable RI AOT",
         SET_OPTION_BIT(TR_HWProfilerDisableAOT), "F", NOT_IN_SUBSET},
-   {"HWProfilerDisableRIOverPrivageLinkage","O<nnn>\tDisable RI over private linkage",
+   {"HWProfilerDisableRIOverPrivateLinkage","O<nnn>\tDisable RI over private linkage",
         SET_OPTION_BIT(TR_HWProfilerDisableRIOverPrivateLinkage), "F", NOT_IN_SUBSET},
    {"HWProfilerExpirationTime=", "R<nnn>\t",
         TR::Options::setStaticNumeric, (intptr_t)&TR::Options::_hwProfilerExpirationTime, 0, "F%d", NOT_IN_SUBSET },
@@ -942,7 +942,7 @@ TR::OptionTable OMR::Options::_feOptions[] = {
    {"rtResolve",          "D\ttreat all data references as unresolved", SET_JITCONFIG_RUNTIME_FLAG(J9JIT_RUNTIME_RESOLVE) },
    {"safeReservePhysicalMemoryValue=",    "C<nnn>\tsafe buffer value before we risk running out of physical memory, in KB",
         TR::Options::setStaticNumericKBAdjusted, (intptr_t)&TR::Options::_safeReservePhysicalMemoryValue, 0, "F%d (KB)"},
-   {"sampleDontSwitchToProfilingThreshold=", "R<nnn>\tThe maximum number of global samples taken during a sample interval for which the method is denied swithing to profiling",
+   {"sampleDontSwitchToProfilingThreshold=", "R<nnn>\tThe maximum number of global samples taken during a sample interval for which the method is denied switching to profiling",
         TR::Options::setStaticNumeric, (intptr_t)&TR::Options::_sampleDontSwitchToProfilingThreshold, 0, "F%d", NOT_IN_SUBSET},
    {"sampleThresholdVariationAllowance=",  "R<nnn>\tThe percentage that we add or subtract from"
                                            " the original threshold to adjust for method code size."
@@ -965,7 +965,7 @@ TR::OptionTable OMR::Options::_feOptions[] = {
    {"secondaryClassLoadPhaseThreshold=", "O<nnn>\tWhen class load rate just dropped under the CLP threshold  "
                                          "we use this secondary threshold to determine class load phase",
         TR::Options::setStaticNumeric, (intptr_t)&TR::Options::_secondaryClassLoadingPhaseThreshold, 0, "F%d", NOT_IN_SUBSET},
-   {"seriousCompFailureThreshold=",     "M<nnn>\tnumber of srious compilation failures after which we write a trace point in the snap file",
+   {"seriousCompFailureThreshold=",     "M<nnn>\tnumber of serious compilation failures after which we write a trace point in the snap file",
         TR::Options::setStaticNumeric, (intptr_t)&TR::Options::_seriousCompFailureThreshold, 0, "F%d", NOT_IN_SUBSET},
 #if defined(J9VM_OPT_JITSERVER)
    {"sharedROMClassCacheNumPartitions=", " \tnumber of JITServer ROMClass cache partitions (each has its own monitor)",
@@ -1994,7 +1994,7 @@ J9::Options::fePreProcess(void * base)
    // Disable lock reservation due to a functional problem causing a deadlock situation in an ODM workload in Java 8
    // SR5. In addition several performance issues on SPARK workloads have been reported which seem to concurrently
    // access StringBuffer objects from multiple threads.
-   self()->setOption(TR_DisableLockResevation);
+   self()->setOption(TR_DisableLockReservation);
    // Setting number of onsite cache slots for instanceOf node to 4 on IBM Z
    self()->setMaxOnsiteCacheSlotForInstanceOf(4);
 #endif

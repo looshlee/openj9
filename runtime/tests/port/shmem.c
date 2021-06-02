@@ -144,7 +144,7 @@ verifyShmemStats(J9PortLibrary *portLibrary, struct j9shmem_handle *handle, stru
 	}
 	outputComment(PORTLIB, "owner gid: %zu\n", statbuf->ogid);
 	if (statbuf->ogid != gid) {
-		outputErrorMessage(PORTTEST_ERROR_ARGS, "Expected ownder gid=%zu, owner gid obtained by shm stats=%zu\n", gid, statbuf->ogid);
+		outputErrorMessage(PORTTEST_ERROR_ARGS, "Expected owner gid=%zu, owner gid obtained by shm stats=%zu\n", gid, statbuf->ogid);
 	}
 	outputComment(PORTLIB, "creator gid: %zu\n", statbuf->cgid);
 	if (statbuf->cgid != gid) {
@@ -1261,7 +1261,7 @@ j9shmem_test13(J9PortLibrary *portLibrary) {
 	/* Set the region back to read/write and try to write
 	 * we should be able to write to the entire region again
 	 */
-    outputComment(portLibrary,"Reseting memory to readwrite\n");
+    outputComment(portLibrary,"Resetting memory to readwrite\n");
     rc = j9shmem_protect(cacheDir, 0, regionA,SHMSIZE,J9PORT_PAGE_PROTECT_WRITE);
 	if (rc != 0) {
 			if (rc == J9PORT_PAGE_PROTECT_NOT_SUPPORTED) {
@@ -1441,7 +1441,7 @@ j9shmem_test14(J9PortLibrary *portLibrary) {
 	/* Set the region back to read/write and try to write
 	 * we should be able to write to the entire region again
 	 */
-    outputComment(portLibrary,"Reseting first page to readwrite\n");
+    outputComment(portLibrary,"Resetting first page to readwrite\n");
     rc = j9shmem_protect(cacheDir, 0, regionA,pageSize,J9PORT_PAGE_PROTECT_WRITE);
 	if (rc != 0) {
 			if (rc == J9PORT_PAGE_PROTECT_NOT_SUPPORTED) {

@@ -596,8 +596,8 @@ bool TR_J9VirtualCallSite::findCallSiteTarget(TR_CallStack *callStack, TR_Inline
          }
       }
 
-   if (addTargetIfMethodIsNotOverriden(inliner) ||
-      addTargetIfMethodIsNotOverridenInReceiversHierarchy(inliner) ||
+   if (addTargetIfMethodIsNotOverridden(inliner) ||
+      addTargetIfMethodIsNotOverriddenInReceiversHierarchy(inliner) ||
       findCallSiteForAbstractClass(inliner) ||
       addTargetIfThereIsSingleImplementer(inliner))
       {
@@ -623,7 +623,7 @@ static TR_ResolvedMethod * findSingleImplementer(
       }
 
    TR_ResolvedMethod *implArray[2]; // collect maximum 2 implementers if you can
-   int32_t implCount = TR_ClassQueries::collectImplementorsCapped(classInfo, implArray, 2, cpIndexOrVftSlot, callerMethod, comp, locked, useGetResolvedInterfaceMethod);
+   int32_t implCount = TR_ClassQueries::collectImplementersCapped(classInfo, implArray, 2, cpIndexOrVftSlot, callerMethod, comp, locked, useGetResolvedInterfaceMethod);
    return (implCount == 1 ? implArray[0] : 0);
    }
 */
@@ -996,7 +996,7 @@ void TR_ProfileableCallSite::findSingleProfiledReceiver(ListIterator<TR_ExtraAdd
                 !fej9->canRememberClass(callSiteClass))
                {
                if (comp()->trace(OMR::inlining))
-                  traceMsg(comp(), "inliner: profiled class [%p] or callSiteClass [%p] cannot be rememberd in shared cache\n", tempreceiverClass, callSiteClass);
+                  traceMsg(comp(), "inliner: profiled class [%p] or callSiteClass [%p] cannot be remembered in shared cache\n", tempreceiverClass, callSiteClass);
                continue;
                }
             }
@@ -1011,7 +1011,7 @@ void TR_ProfileableCallSite::findSingleProfiledReceiver(ListIterator<TR_ExtraAdd
          // don't apply the optimization
          TR_ByteCodeInfo &bcInfo = _bcInfo;  //callNode->getByteCodeInfo();
          if (valueInfo->getTopProbability() == 1.0f && valueInfo->getProfiler()->getSource() < LastProfiler)
-            guard->setIsHighProbablityProfiledGuard();
+            guard->setIsHighProbabilityProfiledGuard();
 
          heuristicTrace(inliner->tracer(),"Creating a profiled call. callee Symbol %p frequencyadjustment %f",_initialCalleeSymbol, val);
          addTarget(comp()->trMemory(),inliner,guard,targetMethod,tempreceiverClass,heapAlloc,val);

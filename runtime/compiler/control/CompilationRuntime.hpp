@@ -790,10 +790,10 @@ public:
    void incrementMethodQueueSize();
    int32_t getPeakMethodQueueSize() const { return _maxQueueSize; }
    int32_t getNumQueuedFirstTimeCompilations() const { return _numQueuedFirstTimeCompilations; }
-   void decNumGCRReqestsQueued(TR_MethodToBeCompiled *entry);
+   void decNumGCRRequestsQueued(TR_MethodToBeCompiled *entry);
    void incNumGCRRequestsQueued(TR_MethodToBeCompiled *entry);
    int32_t getNumGCRRequestsQueued() const { return _numGCRQueued; }
-   void decNumInvReqestsQueued(TR_MethodToBeCompiled *entry);
+   void decNumInvRequestsQueued(TR_MethodToBeCompiled *entry);
    void incNumInvRequestsQueued(TR_MethodToBeCompiled *entry);
    void updateCompQueueAccountingOnDequeue(TR_MethodToBeCompiled *entry);
    int32_t getNumCompThreadsActive() const { return _numCompThreadsActive; }
@@ -1012,7 +1012,7 @@ public:
    TR_JProfilingQueue &getJProfilingCompQueue() { return _JProfilingQueue; }
 
    TR_JitSampleInfo &getJitSampleInfoRef() { return _jitSampleInfo; }
-   TR_InterpreterSamplingTracking *getInterpSamplTrackingInfo() const { return _interpSamplTrackingInfo; }
+   TR_InterpreterSamplingTracking *getInterpSampleTrackingInfo() const { return _interpSampleTrackingInfo; }
 
    int32_t getAppSleepNano() const { return _appSleepNano; }
    void setAppSleepNano(int32_t t) { _appSleepNano = t; }
@@ -1126,7 +1126,7 @@ private:
 
    static int32_t *_compThreadActivationThresholds;
    static int32_t *_compThreadSuspensionThresholds;
-   static int32_t *_compThreadActivationThresholdsonStarvation;
+   static int32_t *_compThreadActivationThresholdsOnStarvation;
 
    TR::CompilationInfoPerThread **_arrayOfCompilationInfoPerThread; // First NULL entry means end of the array
    TR::CompilationInfoPerThread *_compInfoForDiagnosticCompilationThread; // compinfo for dump compilation thread
@@ -1266,7 +1266,7 @@ private:
    // It is reset when a compilation thread is suspended, thus possibly
    // freeing scratch segments it holds to
    bool _suspendThreadDueToLowPhysicalMemory;
-   TR_InterpreterSamplingTracking *_interpSamplTrackingInfo;
+   TR_InterpreterSamplingTracking *_interpSampleTrackingInfo;
 
 #if defined(J9VM_OPT_JITSERVER)
    ClientSessionHT               *_clientSessionHT; // JITServer hashtable that holds session information about JITClients

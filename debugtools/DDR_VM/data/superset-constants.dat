@@ -388,7 +388,7 @@ S|GCReason|GCReasonPointer|
 C|OUT_OF_MEMORY_TRIGGER
 C|SYSTEM_GC_TRIGGER
 C|TIME_TRIGGER
-C|UNKOWN_REASON
+C|UNKNOWN_REASON
 C|VM_SHUTDOWN
 C|WORK_TRIGGER
 S|GC_ArrayletObjectModelBase$ArrayLayout|GC_ArrayletObjectModelBase$ArrayLayoutPointer|
@@ -2260,7 +2260,7 @@ S|J9JavaAccessFlags|J9JavaAccessFlagsPointer|
 C|J9AccAbstract
 C|J9AccAnnotation
 C|J9AccBridge
-C|J9AccClassAnnnotionRefersDoubleSlotEntry
+C|J9AccClassAnnotationRefersDoubleSlotEntry
 C|J9AccClassAnonClass
 C|J9AccClassArray
 C|J9AccClassBytecodesModified

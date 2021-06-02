@@ -257,7 +257,7 @@ typedef struct  J9PortShSemParameters {
  	const char* controlFileDir; /* Directory in which to create control files (SysV semaphores only) */
  	uint8_t proj_id; /* parameter used with semName to generate semaphore key */
  	uint32_t deleteBasefile : 1; /* delete the base file (used to generate the semaphore key) when destroying the semaphore */
- 	uint32_t global : 1; /* Windows only: use the global namespace for the sempahore */
+ 	uint32_t global : 1; /* Windows only: use the global namespace for the semaphore */
 } J9PortShSemParameters;
 /**
  * @name Process Handle
@@ -816,8 +816,8 @@ typedef struct J9CacheInfoQuery {
 #define J9PORT_ERROR_SYSINFO_MEMORY_ALLOC_FAILED OMRPORT_ERROR_SYSINFO_MEMORY_ALLOC_FAILED
 #define J9PORT_ERROR_SYSINFO_INSUFFICIENT_PRIVILEGE OMRPORT_ERROR_SYSINFO_INSUFFICIENT_PRIVILEGE
 #define J9PORT_ERROR_SYSINFO_ENV_INIT_CRASHED_COPYING_BUFFER OMRPORT_ERROR_SYSINFO_ENV_INIT_CRASHED_COPYING_BUFFER
-#define J9PORT_ERROR_VMEM_INSUFFICENT_RESOURCES OMRPORT_ERROR_VMEM_INSUFFICENT_RESOURCES
-#define J9PORT_ERROR_VMEM_INSUFFICENT_RESOURCES OMRPORT_ERROR_VMEM_INSUFFICENT_RESOURCES
+#define J9PORT_ERROR_VMEM_INSUFFICIENT_RESOURCES OMRPORT_ERROR_VMEM_INSUFFICIENT_RESOURCES
+#define J9PORT_ERROR_VMEM_INSUFFICIENT_RESOURCES OMRPORT_ERROR_VMEM_INSUFFICIENT_RESOURCES
 #define J9PORT_ERROR_NOT_SUPPORTED_ON_THIS_PLATFORM OMRPORT_ERROR_NOT_SUPPORTED_ON_THIS_PLATFORM
 
 #define J9PORT_TTY_OUT OMRPORT_TTY_OUT

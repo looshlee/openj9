@@ -1142,7 +1142,7 @@ TR_J9InlinerPolicy::createUnsafePutWithOffset(TR::ResolvedMethodSymbol *calleeSy
    TR::Node* valueWithConversion = NULL;
    TR::Node* unsafeNodeWithConversion = NULL;
 
-   debugTrace(tracer(), "\tvalueWithouTConversion = %p\n", valueWithoutConversion);
+   debugTrace(tracer(), "\tvalueWithoutConversion = %p\n", valueWithoutConversion);
 
 
    bool conversionNeeded = comp()->fe()->dataTypeForLoadOrStore(type) != type;
@@ -2807,7 +2807,7 @@ TR_MultipleCallTargetInliner::eliminateTailRecursion(
             block2->setFrequency(block->getFrequency());
          else
             {
-            if (guard->isHighProbablityProfiledGuard())
+            if (guard->isHighProbabilityProfiledGuard())
                block2->setFrequency(MAX_COLD_BLOCK_COUNT+1);
             else
                block2->setFrequency(TR::Block::getScaledSpecializedFrequency(block->getFrequency()));
@@ -3095,7 +3095,7 @@ TR_MultipleCallTargetInliner::walkCallSites(TR::ResolvedMethodSymbol * callerSym
                            if (methodInfo)
                               {
                               methodInfo->setWasScannedForInlining(true);
-                              debugTrace(tracer(),"Walk call sites for scanning: set scaneed for methodInfo %p\n", methodInfo);
+                              debugTrace(tracer(),"Walk call sites for scanning: set scanned for methodInfo %p\n", methodInfo);
                               }
                            //printf("Walk %s, method info %p\n", calleeResolvedSymbol->signature(trMemory()), methodInfo);
                            }
@@ -4183,11 +4183,11 @@ TR_MultipleCallTargetInliner::exceedsSizeThreshold(TR_CallSite *callSite, int by
    // if the callsite is highly polymorphic but the following conditions are meet, still inline the callee
    // 1. the compiling method is scorching
    // 2. the callee is scorching OR queued for veryhot/scorching compile
-   int32_t outterMethodSize = getJ9InitialBytecodeSize(callSite->_callerResolvedMethod, 0, comp());
+   int32_t outerMethodSize = getJ9InitialBytecodeSize(callSite->_callerResolvedMethod, 0, comp());
    if (comp()->getMethodHotness() > warm && callSite->isInterface()
        && bytecodeSize > polymorphicCalleeSizeThreshold
-       && outterMethodSize > polymorphicRootSizeThreshold
-       && ((bytecodeSize * 100) / outterMethodSize) < 6
+       && outerMethodSize > polymorphicRootSizeThreshold
+       && ((bytecodeSize * 100) / outerMethodSize) < 6
        && (!callSite->_ecsPrexArgInfo || !callSite->_ecsPrexArgInfo->get(0) || !callSite->_ecsPrexArgInfo->get(0)->getClass())
        && comp()->fej9()->maybeHighlyPolymorphic(comp(), callSite->_callerResolvedMethod, callSite->_cpIndex, callSite->_interfaceMethod, callSite->_receiverClass)
        && (!trustedInterfaceRegex || !TR::SimpleRegex::match(trustedInterfaceRegex, callSite->_interfaceMethod->signature(trMemory()), false)))
@@ -4207,7 +4207,7 @@ TR_MultipleCallTargetInliner::exceedsSizeThreshold(TR_CallSite *callSite, int by
          {
          debugTrace(tracer(), "### exceeding size threshold for potentially highly polymorphic callsite initialCalleeSymbol = %s callerResolvedMethod = %s calleeResolvedMethod = %s\n",
                  tracer()->traceSignature(callSite->_interfaceMethod), tracer()->traceSignature(callerResolvedMethod), tracer()->traceSignature(calleeResolvedMethod));
-         TR::DebugCounter::incStaticDebugCounter(comp(), TR::DebugCounter::debugCounterName(comp(), "inliner.highlyPolymorphicFail/(%s)/%s/(%s)/sizes=%d.%d", comp()->signature(), comp()->getHotnessName(comp()->getMethodHotness()), callSite->_interfaceMethod->signature(trMemory()), bytecodeSize, outterMethodSize));
+         TR::DebugCounter::incStaticDebugCounter(comp(), TR::DebugCounter::debugCounterName(comp(), "inliner.highlyPolymorphicFail/(%s)/%s/(%s)/sizes=%d.%d", comp()->signature(), comp()->getHotnessName(comp()->getMethodHotness()), callSite->_interfaceMethod->signature(trMemory()), bytecodeSize, outerMethodSize));
          return true;
          }
       }
@@ -4400,7 +4400,7 @@ TR_MultipleCallTargetInliner::exceedsSizeThreshold(TR_CallSite *callSite, int by
 
    if (!comp()->getOption(TR_DisableInlinerFanIn))  // TODO: make the default for everybody
       {
-      // In JIT, having low caller information is equivalent to lack of information.  We want to exclude only cases where we know we have alot of fan-in
+      // In JIT, having low caller information is equivalent to lack of information.  We want to exclude only cases where we know we have a lot of fan-in
       if (j9InlinerPolicy->adjustFanInSizeInExceedsSizeThreshold(bytecodeSize, calculatedSize, calleeResolvedMethod, callerResolvedMethod, bcInfo.getByteCodeIndex()))
          {
          return true;
@@ -4710,7 +4710,7 @@ TR_J9InlinerPolicy::validateArguments(TR_CallTarget *calltarget, TR_LinkHead<TR_
    }
 
 bool
-TR_J9InlinerPolicy::supressInliningRecognizedInitialCallee(TR_CallSite* callsite, TR::Compilation* comp)
+TR_J9InlinerPolicy::suppressInliningRecognizedInitialCallee(TR_CallSite* callsite, TR::Compilation* comp)
    {
    TR_ResolvedMethod * initialCalleeMethod = callsite->_initialCalleeMethod;
 
@@ -4739,7 +4739,7 @@ TR_J9InlinerPolicy::supressInliningRecognizedInitialCallee(TR_CallSite* callsite
             break;
          }
       }
-   return (callsite->_callNode && comp->fej9()->supressInliningRecognizedInitialCallee(callsite, comp));
+   return (callsite->_callNode && comp->fej9()->suppressInliningRecognizedInitialCallee(callsite, comp));
    }
 
 static bool
@@ -6304,7 +6304,7 @@ TR_J9TransformInlinedFunction::isSyncReturnBlock(TR::Compilation *comp, TR::Bloc
  * if the initialCalleeMethod of this callsite is not overridden, add this method as the target of the callsite
  */
 bool
-TR_J9InlinerUtil::addTargetIfMethodIsNotOverridenInReceiversHierarchy(TR_IndirectCallSite *callsite)
+TR_J9InlinerUtil::addTargetIfMethodIsNotOverriddenInReceiversHierarchy(TR_IndirectCallSite *callsite)
    {
    TR_PersistentCHTable *chTable = comp()->getPersistentInfo()->getPersistentCHTable();
 
@@ -6658,7 +6658,7 @@ TR_J9InlinerPolicy::suitableForRemat(TR::Compilation *comp, TR::Node *callNode, 
 
    bool suitableForRemat = true;
    TR_AddressInfo *valueInfo = static_cast<TR_AddressInfo*>(TR_ValueProfileInfoManager::getProfiledValueInfo(callNode, comp, AddressInfo));
-   if (guard->isHighProbablityProfiledGuard())
+   if (guard->isHighProbabilityProfiledGuard())
       {
       if (comp->getMethodHotness() <= warm && comp->getPersistentInfo()->getJitState() == STARTUP_STATE)
          {

@@ -3169,7 +3169,7 @@ J9::Z::TreeEvaluator::evaluateValueModifyingOperand(TR::Node * node,
             int32_t srcLength = sourceSize;
             // If the firstStorageReference is not a temp or a hint then the recursive dec in setStorageReference() will be wrong.
             // This should always be true because this is the initialized case and it is not legal to initialize a non-temp or non-hint.
-            TR_ASSERT( firstStorageReference->isNodeBasedHint(), "expecting the srcStorargeReference to be a node based hint\n");
+            TR_ASSERT( firstStorageReference->isNodeBasedHint(), "expecting the srcStorageReference to be a node based hint\n");
             bool performExplicitWidening = false;
             cg->initializeNewTemporaryStorageReference(node, targetReg, destLength, firstChild, firstReg, srcLength, sourceMR, performExplicitWidening, alwaysLegalToCleanSign, trackSignState);
             if (targetBCDReg)
@@ -4714,7 +4714,7 @@ TR_OpaquePseudoRegister * J9::Z::TreeEvaluator::evaluateSignModifyingOperand(TR:
       TR_ASSERT( isBCD, "this path should only be taken for BCD nodes (unless we extend support for aggr types)\n");
       TR_StorageReference *firstStorageReference = firstReg->getStorageReference();
       // An initialized reg cannot have a non-hint node based storage reference as these would come from an ipdload node and pdload's never initialize a register
-      TR_ASSERT( firstStorageReference->isTemporaryBased() || firstStorageReference->isNodeBasedHint(),"expecting the initalized firstReg to be either a temp or a node based hint\n");
+      TR_ASSERT( firstStorageReference->isTemporaryBased() || firstStorageReference->isNodeBasedHint(),"expecting the initialized firstReg to be either a temp or a node based hint\n");
       targetReg = cg->allocatePseudoRegister(node->getDataType());
       // transfer the zeroDigits/deadBytes and cache the firstReg->getStorageReference() *before* calling ssrClobberEvaluate in case
       // a new storage reference set on firstReg causes these values to be reset
@@ -4983,7 +4983,7 @@ J9::Z::TreeEvaluator::pdclearEvaluator(TR::Node *node, TR::CodeGenerator *cg)
    int32_t targetRegPrec = targetReg->getDecimalPrecision();
 
    if (cg->traceBCDCodeGen())
-      traceMsg(comp,"\tset targetReg prec to %d (isTrucation %s)\n",targetRegPrec,isTruncation?"yes":"no");
+      traceMsg(comp,"\tset targetReg prec to %d (isTruncation %s)\n",targetRegPrec,isTruncation?"yes":"no");
 
    bool truncatedIntoClearedDigits = false;
    if (targetRegPrec < leftMostDigit)

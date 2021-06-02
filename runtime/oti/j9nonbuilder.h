@@ -43,9 +43,9 @@
 
 /* The bit fields used by verifyQualifiedName to verify a qualified class name */
 #define CLASSNAME_INVALID			0
-#define CLASSNAME_VALID_NON_ARRARY	0x1
-#define CLASSNAME_VALID_ARRARY		0x2
-#define CLASSNAME_VALID				(CLASSNAME_VALID_NON_ARRARY | CLASSNAME_VALID_ARRARY)
+#define CLASSNAME_VALID_NON_ARRAY	0x1
+#define CLASSNAME_VALID_ARRAY		0x2
+#define CLASSNAME_VALID				(CLASSNAME_VALID_NON_ARRAY | CLASSNAME_VALID_ARRAY)
 
 /* @ddr_namespace: map_to_type=J9JITDataCacheConstants */
 
@@ -531,7 +531,7 @@ typedef struct J9JITExceptionTable {
 	I_16 objectTempSlots;
 	U_16 prologuePushes;
 	I_16 tempOffset;
-	U_16 numExcptionRanges;
+	U_16 numExceptionRanges;
 	I_32 size;
 	UDATA flags;
 	UDATA registerSaveDescription;
@@ -3350,7 +3350,7 @@ typedef struct J9ClassLoader {
 #define J9CLASSLOADER_ANON_CLASS_LOADER  0x400
 #define J9CLASSLOADER_CONTAINS_METHODS_PRESENT_IN_MCC_HASH  32
 #define J9CLASSLOADER_CONTAINS_JXES  1
-#define J9CLASSLOADER_INVARIANTS_SHARABLE  4
+#define J9CLASSLOADER_INVARIANTS_SHAREABLE  4
 #define J9CLASSLOADER_CLASSPATH_SET  2
 #define J9CLASSLOADER_CONTAINS_JITTED_METHODS  16
 
@@ -4529,8 +4529,8 @@ typedef struct J9InternalVMFunctions {
 #endif /* J9VM_INTERP_SIG_QUIT_THREAD || J9VM_RAS_DUMP_AGENTS */
 	void  (JNICALL *initializeAttachedThread)(struct J9VMThread *vmContext, const char *name, j9object_t *group, UDATA daemon, struct J9VMThread *initializee) ;
 	void  ( *initializeMethodRunAddressNoHook)(struct J9JavaVM* vm, J9Method *method) ;
-	void  (JNICALL *sidecarInvokeReflectMethod)(struct J9VMThread *vmContext, jobject methodRef, jobject recevierRef, jobjectArray argsRef) ;
-	void  (JNICALL *sidecarInvokeReflectConstructor)(struct J9VMThread *vmContext, jobject constructorRef, jobject recevierRef, jobjectArray argsRef) ;
+	void  (JNICALL *sidecarInvokeReflectMethod)(struct J9VMThread *vmContext, jobject methodRef, jobject receiverRef, jobjectArray argsRef) ;
+	void  (JNICALL *sidecarInvokeReflectConstructor)(struct J9VMThread *vmContext, jobject constructorRef, jobject receiverRef, jobjectArray argsRef) ;
 	struct J9MemorySegmentList*  ( *allocateMemorySegmentListWithSize)(struct J9JavaVM * javaVM, U_32 numberOfMemorySegments, UDATA sizeOfElements, U_32 memoryCategory) ;
 	void  ( *freeMemorySegmentListEntry)(struct J9MemorySegmentList *segmentList, struct J9MemorySegment *segment) ;
 	void  ( *acquireExclusiveVMAccessFromExternalThread)(struct J9JavaVM * vm) ;
@@ -4814,7 +4814,7 @@ typedef struct J9VMThread {
 	IDATA nonZeroTlhPrefetchFTA;
 	omrthread_monitor_t publicFlagsMutex;
 	UDATA publicFlags;
-#if defined(J9VM_ENV_DATA64) /* The ifdeffed field does not affect the aligmment check below */
+#if defined(J9VM_ENV_DATA64) /* The ifdeffed field does not affect the alignment check below */
 #if defined(OMR_GC_COMPRESSED_POINTERS) && defined(OMR_GC_FULL_POINTERS)
 	UDATA compressObjectReferences;
 #endif /* defined(OMR_GC_COMPRESSED_POINTERS) && defined(OMR_GC_FULL_POINTERS) */
@@ -5306,9 +5306,9 @@ typedef struct J9JavaVM {
 #if defined(J9VM_OPT_JAVA_OFFLOAD_SUPPORT)
 	void  ( *javaOffloadSwitchOnFunc)(omrthread_t thr) ;
 	void  ( *javaOffloadSwitchOffFunc)(omrthread_t thr) ;
-	void  ( *javaOffloadSwitchOnWithMethodFunc)(struct J9VMThread *vmThread, struct J9Method *methodWraper) ;
-	void  ( *javaOffloadSwitchOffWithMethodFunc)(struct J9VMThread *vmThread, struct J9Method *methodWraper) ;
-	void  ( *javaOffloadSwitchJDBCWithMethodFunc)(struct J9VMThread *vmThread, struct J9Method *methodWraper) ;
+	void  ( *javaOffloadSwitchOnWithMethodFunc)(struct J9VMThread *vmThread, struct J9Method *methodWrapper) ;
+	void  ( *javaOffloadSwitchOffWithMethodFunc)(struct J9VMThread *vmThread, struct J9Method *methodWrapper) ;
+	void  ( *javaOffloadSwitchJDBCWithMethodFunc)(struct J9VMThread *vmThread, struct J9Method *methodWrapper) ;
 	void  ( *javaOffloadSwitchOnWithReasonFunc)(struct J9VMThread *vmThread, UDATA reason) ;
 	void  ( *javaOffloadSwitchOffWithReasonFunc)(struct J9VMThread *vmThread, UDATA reason) ;
 	void  ( *javaOffloadSwitchOnNoEnvWithReasonFunc)(struct J9JavaVM *vm, omrthread_t thr, UDATA reason) ;

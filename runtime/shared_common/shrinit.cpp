@@ -3669,7 +3669,7 @@ j9shr_init(J9JavaVM *vm, UDATA loadFlags, UDATA* nonfatal)
 		IDATA numMethods = 0;
 
 		*nonfatal = 0;
-		numMethods = j9shr_aotMethodOperation(vm, vm->sharedCacheAPI->methodSpecs, SHR_INVALIDATE_AOT_METHOTHODS);
+		numMethods = j9shr_aotMethodOperation(vm, vm->sharedCacheAPI->methodSpecs, SHR_INVALIDATE_AOT_METHODS);
 		if (numMethods > 0) {
 			if (verboseFlags > 0) {
 				j9tty_printf(PORTLIB, "\n");
@@ -3687,7 +3687,7 @@ j9shr_init(J9JavaVM *vm, UDATA loadFlags, UDATA* nonfatal)
 		IDATA numMethods = 0;
 
 		*nonfatal = 0;
-		numMethods = j9shr_aotMethodOperation(vm, vm->sharedCacheAPI->methodSpecs, SHR_REVALIDATE_AOT_METHOTHODS);
+		numMethods = j9shr_aotMethodOperation(vm, vm->sharedCacheAPI->methodSpecs, SHR_REVALIDATE_AOT_METHODS);
 		if (numMethods > 0) {
 			if (verboseFlags > 0) {
 				j9tty_printf(PORTLIB, "\n");
@@ -3705,7 +3705,7 @@ j9shr_init(J9JavaVM *vm, UDATA loadFlags, UDATA* nonfatal)
 		IDATA numMethods = 0;
 		*nonfatal = 0;
 
-		numMethods = j9shr_aotMethodOperation(vm, vm->sharedCacheAPI->methodSpecs, SHR_FIND_AOT_METHOTHODS);
+		numMethods = j9shr_aotMethodOperation(vm, vm->sharedCacheAPI->methodSpecs, SHR_FIND_AOT_METHODS);
 		if (numMethods > 0) {
 			if (verboseFlags > 0) {
 				j9tty_printf(PORTLIB, "\n");
@@ -4850,9 +4850,9 @@ j9shr_findCompiledMethodEx1(J9VMThread* currentThread, const J9ROMMethod* romMet
  * This function will find the AOT method(s) that match the passed in method specification(s) and perform the required operation
  * @param[in] vm The current J9JavaVM
  * @param[in] string The pointer of the method specifications passed in by "invalidateAotMethods/revalidateAotMethods/findAotMethods=" option
- * @param[in] action SHR_FIND_AOT_METHOTHODS when listing the specified methods
- * 					 SHR_INVALIDATE_AOT_METHOTHODS when invalidating the specified methods
- * 					 SHR_REVALIDATE_AOT_METHOTHODS when revalidating the specified methods
+ * @param[in] action SHR_FIND_AOT_METHODS when listing the specified methods
+ * 					 SHR_INVALIDATE_AOT_METHODS when invalidating the specified methods
+ * 					 SHR_REVALIDATE_AOT_METHODS when revalidating the specified methods
  *
  * @return the number of AOT methods invalidated/revalidated/found on success or -1 on failure
  */

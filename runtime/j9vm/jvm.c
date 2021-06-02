@@ -279,7 +279,7 @@ static UDATA protectedStrerror(J9PortLibrary* portLib, void* savedErrno);
 static UDATA strerrorSignalHandler(struct J9PortLibrary* portLibrary, U_32 gpType, void* gpInfo, void* userData);
 static void throwNewUnsatisfiedLinkError(JNIEnv *env, char *message);
 static int findDirContainingFile(J9StringBuffer **result, char *paths, char pathSeparator, char *fileToFind, int elementsToSkip);
-static int findDirUplevelToDirContainingFile(J9StringBuffer **result, char *pathEnvar, char pathSeparator, char *fileInPath, int upLevels, int elementsToSkip);
+static int findDirUplevelToDirContainingFile(J9StringBuffer **result, char *pathEnvVar, char pathSeparator, char *fileInPath, int upLevels, int elementsToSkip);
 static void truncatePath(char *inputPath);
 
 #if defined(WIN32)
@@ -2444,12 +2444,12 @@ int findDirContainingFile(J9StringBuffer **result, char *paths, char pathSeparat
 
 
 
-int findDirUplevelToDirContainingFile(J9StringBuffer **result, char *pathEnvar, char pathSeparator, char *fileInPath, int upLevels, int elementsToSkip) {
+int findDirUplevelToDirContainingFile(J9StringBuffer **result, char *pathEnvVar, char pathSeparator, char *fileInPath, int upLevels, int elementsToSkip) {
 	char *paths;
 	int   rc;
 
 	/* Get the list of paths */
-	paths = getenv(pathEnvar);
+	paths = getenv(pathEnvVar);
 	if (!paths) {
 		return FALSE;
 	}
@@ -3117,7 +3117,7 @@ testBackupAndRestoreLibpath(void)
 	}
 
 	/* Multiple empty paths plus a single colon at the start stays ahead of the backup path */
-	printf("TESTCASE_17: Multiple empty paths plus a single colon at the start stays ahead of the backup patht\n");
+	printf("TESTCASE_17: Multiple empty paths plus a single colon at the start stays ahead of the backup path\n");
 	setLibpath("x:y");
 	backupLibpath(&bkp, 0);
 	setLibpath(":abc::def::x:y");
@@ -3487,10 +3487,10 @@ throwNewUnsatisfiedLinkError(JNIEnv *env, char *message) {
  */
 static void
 truncatePath(char *inputPath) {
-	char *lastOccurence = strrchr(inputPath, DIR_SEPARATOR);
+	char *lastOccurrence = strrchr(inputPath, DIR_SEPARATOR);
 	/* strrchr() returns NULL if it cannot find the character */
-	if (NULL != lastOccurence) {
-		*lastOccurence = '\0';
+	if (NULL != lastOccurrence) {
+		*lastOccurrence = '\0';
 	}
 }
 

@@ -560,7 +560,7 @@ TR_YesNoMaybe TR::CompilationInfo::shouldActivateNewCompThread()
          {
          // If the server reached low memory and then recovered to normal,
          // subdue activation of new compilation threads on the client
-         if (_queueWeight > _compThreadActivationThresholdsonStarvation[getNumCompThreadsActive()] << 1)
+         if (_queueWeight > _compThreadActivationThresholdsOnStarvation[getNumCompThreadsActive()] << 1)
             return TR_yes;
          return TR_no;
          }
@@ -574,18 +574,18 @@ TR_YesNoMaybe TR::CompilationInfo::shouldActivateNewCompThread()
       else if (getPersistentInfo()->getRemoteCompilationMode() == JITServer::CLIENT && JITServerHelpers::isServerAvailable())
          {
          
-         // For JITClient let's be more agressive with compilation thread activation
+         // For JITClient let's be more aggressive with compilation thread activation
          // because the latencies are larger. Beyond 'numProc-1' we will use the
          // 'starvation activation schedule', but accelerated (divide those thresholds by 2)
          // NOTE: compilation thread activation policy is AGGRESSIVE if we reached this point
-         if (_queueWeight > (_compThreadActivationThresholdsonStarvation[getNumCompThreadsActive()] >> 1))
+         if (_queueWeight > (_compThreadActivationThresholdsOnStarvation[getNumCompThreadsActive()] >> 1))
             return TR_yes;
          }
 #endif /* defined(J9VM_OPT_JITSERVER) */
       else if (_starvationDetected)
          {
          // comp thread starvation; may activate threads beyond 'numCpu-1'
-         if (_queueWeight > _compThreadActivationThresholdsonStarvation[getNumCompThreadsActive()])
+         if (_queueWeight > _compThreadActivationThresholdsOnStarvation[getNumCompThreadsActive()])
             return TR_yes;
          }
       }
@@ -674,7 +674,7 @@ bool TR::CompilationInfo::shouldDowngradeCompReq(TR_MethodToBeCompiled *entry)
       else
          {
          // We may skip downgrading during grace period
-         if (TR::Options::getCmdLineOptions()->getOption(TR_DontDowgradeToColdDuringGracePeriod) &&
+         if (TR::Options::getCmdLineOptions()->getOption(TR_DontDowngradeToColdDuringGracePeriod) &&
              persistentInfo->getElapsedTime() < (uint64_t)persistentInfo->getClassLoadingPhaseGracePeriod())
             {
             }
@@ -804,9 +804,9 @@ TR::CompilationInfo::freeAllCompilationThreads()
       jitPersistentFree(_compThreadSuspensionThresholds);
       }
 
-   if (_compThreadActivationThresholdsonStarvation)
+   if (_compThreadActivationThresholdsOnStarvation)
       {
-      jitPersistentFree(_compThreadActivationThresholdsonStarvation);
+      jitPersistentFree(_compThreadActivationThresholdsOnStarvation);
       }
 
    if (_arrayOfCompilationInfoPerThread)
@@ -828,9 +828,9 @@ void TR::CompilationInfo::freeAllResources()
       jitPersistentFree(_compInfoForCompOnAppThread);
       }
 
-   if (_interpSamplTrackingInfo)
+   if (_interpSampleTrackingInfo)
       {
-      jitPersistentFree(_interpSamplTrackingInfo);
+      jitPersistentFree(_interpSampleTrackingInfo);
       }
 
    freeAllCompilationThreads();
@@ -1183,7 +1183,7 @@ TR::CompilationInfo::CompilationInfo(J9JITConfig *jitConfig) :
    _cpuEntitlement.init(jitConfig);
    _lowPriorityCompilationScheduler.setCompInfo(this);
    _JProfilingQueue.setCompInfo(this);
-   _interpSamplTrackingInfo = new (PERSISTENT_NEW) TR_InterpreterSamplingTracking(this);
+   _interpSampleTrackingInfo = new (PERSISTENT_NEW) TR_InterpreterSamplingTracking(this);
 #if defined(J9VM_OPT_JITSERVER)
    _clientSessionHT = NULL; // This will be set later when options are processed
    _unloadedClassesTempList = NULL;
@@ -1491,7 +1491,7 @@ void TR::CompilationInfo::releaseCompilationLock()
    {
    if (useSeparateCompilationThread() && _compilationMonitor)
       {
-      debugPrint("\t\texternal user releasing compilatoin monitor\n");
+      debugPrint("\t\texternal user releasing compilation monitor\n");
       releaseCompMonitor(0);
       }
    }
@@ -1620,10 +1620,10 @@ void TR::CompilationInfo::printMethodNameToVlog(const J9ROMClass* romClass, cons
 #include "infra/Statistics.hpp"
 #undef STATS
 #ifdef STATS
-TR_Stats statBudgetEpoch("Budget len at begining of epoch");
+TR_Stats statBudgetEpoch("Budget len at beginning of epoch");
 TR_Stats statBudgetSmallLag("Budget/comp when smallLag");
 TR_Stats statBudgetMediumLag("Budget/comp when mediumLag");
-TR_Stats statEpochLength("Epoch lengh (ms)");
+TR_Stats statEpochLength("Epoch length (ms)");
 char *eventNames[]={"SyncReq", "SmallLag", "LargeLag", "Medium-NoBudget", "Medium-highBudget", "Medium-LowBudget", "Medium-Idle"};
 TR_StatsEvents<7> statEvents("Scenarios", eventNames, 0);
 char *priorityName[]={"High","Normal"};
@@ -1856,7 +1856,7 @@ int32_t TR::CompilationInfo::getCompBudget() const
    }
 
 void
-TR::CompilationInfo::decNumGCRReqestsQueued(TR_MethodToBeCompiled *entry)
+TR::CompilationInfo::decNumGCRRequestsQueued(TR_MethodToBeCompiled *entry)
    {
    if (entry->_GCRrequest) _numGCRQueued--;
    }
@@ -1868,7 +1868,7 @@ TR::CompilationInfo::incNumGCRRequestsQueued(TR_MethodToBeCompiled *entry)
    }
 
 void
-TR::CompilationInfo::decNumInvReqestsQueued(TR_MethodToBeCompiled *entry)
+TR::CompilationInfo::decNumInvRequestsQueued(TR_MethodToBeCompiled *entry)
    {
    if (entry->_entryIsCountedAsInvRequest)
       {
@@ -1887,8 +1887,8 @@ void
 TR::CompilationInfo::updateCompQueueAccountingOnDequeue(TR_MethodToBeCompiled *entry)
    {
    _numQueuedMethods--; // one less method in the queue
-   decNumGCRReqestsQueued(entry);
-   decNumInvReqestsQueued(entry);
+   decNumGCRRequestsQueued(entry);
+   decNumInvRequestsQueued(entry);
    if (entry->getMethodDetails().isOrdinaryMethod() && entry->_oldStartPC==0)
       {
       _numQueuedFirstTimeCompilations--;
@@ -2703,7 +2703,7 @@ TR::CompilationInfoPerThread* TR::CompilationInfo::getCompInfoForThread(J9VMThre
 
 int32_t *TR::CompilationInfo::_compThreadActivationThresholds = NULL;
 int32_t *TR::CompilationInfo::_compThreadSuspensionThresholds = NULL;
-int32_t *TR::CompilationInfo::_compThreadActivationThresholdsonStarvation = NULL;
+int32_t *TR::CompilationInfo::_compThreadActivationThresholdsOnStarvation = NULL;
 
 void TR::CompilationInfo::updateNumUsableCompThreads(int32_t &numUsableCompThreads)
    {
@@ -2728,7 +2728,7 @@ TR::CompilationInfo::allocateCompilationThreads(int32_t numUsableCompThreads)
    {
    if (_compThreadActivationThresholds ||
        _compThreadSuspensionThresholds ||
-       _compThreadActivationThresholdsonStarvation ||
+       _compThreadActivationThresholdsOnStarvation ||
        _arrayOfCompilationInfoPerThread)
       {
       TR_ASSERT_FATAL(false, "Compilation threads have been allocated\n");
@@ -2762,13 +2762,13 @@ TR::CompilationInfo::allocateCompilationThreads(int32_t numUsableCompThreads)
 
    _compThreadActivationThresholds = static_cast<int32_t *>(jitPersistentAlloc((numTotalCompThreads + 1) * sizeof(int32_t)));
    _compThreadSuspensionThresholds = static_cast<int32_t *>(jitPersistentAlloc((numTotalCompThreads + 1) * sizeof(int32_t)));
-   _compThreadActivationThresholdsonStarvation = static_cast<int32_t *>(jitPersistentAlloc((numTotalCompThreads + 1) * sizeof(int32_t)));
+   _compThreadActivationThresholdsOnStarvation = static_cast<int32_t *>(jitPersistentAlloc((numTotalCompThreads + 1) * sizeof(int32_t)));
 
    _arrayOfCompilationInfoPerThread = static_cast<TR::CompilationInfoPerThread **>(jitPersistentAlloc(numTotalCompThreads * sizeof(TR::CompilationInfoPerThread *)));
 
    if (_compThreadActivationThresholds &&
        _compThreadSuspensionThresholds &&
-       _compThreadActivationThresholdsonStarvation &&
+       _compThreadActivationThresholdsOnStarvation &&
        _arrayOfCompilationInfoPerThread)
       {
       // How to read it: the queueWeight has to be over 100 to activate second comp thread
@@ -2776,7 +2776,7 @@ TR::CompilationInfo::allocateCompilationThreads(int32_t numUsableCompThreads)
       // For example:
       // compThreadActivationThresholds[MAX_TOTAL_COMP_THREADS+1] = {-1, 100, 200, 300, 400, 500, 600, 700, 800};
       // compThreadSuspensionThresholds[MAX_TOTAL_COMP_THREADS+1] = {-1,  -1,  10, 110, 210, 310, 410, 510, 610};
-      // compThreadActivationThresholdsonStarvation[MAX_TOTAL_COMP_THREADS+1] = {-1, 800, 1600, 3200, 6400, 12800, 19200, 25600, 32000};
+      // compThreadActivationThresholdsOnStarvation[MAX_TOTAL_COMP_THREADS+1] = {-1, 800, 1600, 3200, 6400, 12800, 19200, 25600, 32000};
       _compThreadActivationThresholds[0] = -1;
       _compThreadActivationThresholds[1] = 100;
       _compThreadActivationThresholds[2] = 200;
@@ -2791,18 +2791,18 @@ TR::CompilationInfo::allocateCompilationThreads(int32_t numUsableCompThreads)
          _compThreadSuspensionThresholds[i] = _compThreadSuspensionThresholds[i-1] + 100;
          }
 
-      _compThreadActivationThresholdsonStarvation[0] = -1;
-      _compThreadActivationThresholdsonStarvation[1] = 800;
+      _compThreadActivationThresholdsOnStarvation[0] = -1;
+      _compThreadActivationThresholdsOnStarvation[1] = 800;
 
       for (int32_t i=2; i<(numTotalCompThreads+1); ++i)
          {
-         if (_compThreadActivationThresholdsonStarvation[i-1] < 12800)
+         if (_compThreadActivationThresholdsOnStarvation[i-1] < 12800)
             {
-            _compThreadActivationThresholdsonStarvation[i] = _compThreadActivationThresholdsonStarvation[i-1] * 2;
+            _compThreadActivationThresholdsOnStarvation[i] = _compThreadActivationThresholdsOnStarvation[i-1] * 2;
             }
          else
             {
-            _compThreadActivationThresholdsonStarvation[i] = _compThreadActivationThresholdsonStarvation[i-1] + 6400;
+            _compThreadActivationThresholdsOnStarvation[i] = _compThreadActivationThresholdsOnStarvation[i-1] + 6400;
             }
          }
 
@@ -3290,7 +3290,7 @@ void TR::CompilationInfo::stopCompilationThreads()
       fprintf(stderr, "numEntriesFoundInLocalChain: %d\n", aotStats->numEntriesFoundInLocalChain);
       fprintf(stderr, "numEntriesFoundAndValidatedInSharedClass: %d\n", aotStats->numEntriesFoundAndValidatedInSharedClass);
       fprintf(stderr, "numClassChainNotInSharedClass: %d\n", aotStats->numClassChainNotInSharedClass);
-      fprintf(stderr, "numCHInSharedCacheButFailValiation: %d\n", aotStats->numCHInSharedCacheButFailValiation);
+      fprintf(stderr, "numCHInSharedCacheButFailValidation: %d\n", aotStats->numCHInSharedCacheButFailValidation);
       fprintf(stderr, "numInstanceFieldInfoNotUsed: %d\n", aotStats->numInstanceFieldInfoNotUsed);
       fprintf(stderr, "numStaticFieldInfoNotUsed: %d\n", aotStats->numStaticFieldInfoNotUsed);
       fprintf(stderr, "numDefiningClassNotFound: %d\n", aotStats->numDefiningClassNotFound);
@@ -5206,7 +5206,7 @@ TR_MethodToBeCompiled *TR::CompilationInfo::peekNextMethodToBeCompiled()
    else if (getLowPriorityCompQueue().hasLowPriorityRequest() && canProcessLowPriorityRequest())
       // These upgrade requests should not hinder the application too much.
       // If possible, we should decrease the priority of the compilation thread
-      // Note that on LINUX priorities do not work
+      // Note that on Linux priorities do not work
       // If we cannot lower the priority, we should wait for some idle time
       // or space compilations apart. if we return NULL here, the compilation
       // thread will go to sleep and we need a mechanism to wake it up
@@ -6380,7 +6380,7 @@ void *TR::CompilationInfo::compileOnSeparateThread(J9VMThread * vmThread, TR::Il
          {
          void *currOldStartPC = startPCIfAlreadyCompiled(vmThread, details, startPC);
          // If currOldStartPC is NULL, the method body defined by startPC has not been
-         // recompiled. We will queue the second remote aync compilation here. Otherwise,
+         // recompiled. We will queue the second remote async compilation here. Otherwise,
          // another thread is doing the recompilation and will take care of queueing
          // the second compilation.
          if (!currOldStartPC)
@@ -8371,7 +8371,7 @@ TR::CompilationInfoPerThreadBase::wrappedCompile(J9PortLibrary *portLib, void * 
                         }
                      if (options->getOption(TR_UseSamplingJProfilingForInterpSampledMethods))
                         {
-                        int32_t skippedCount = that->getCompilationInfo()->getInterpSamplTrackingInfo()->findAndDelete(method);
+                        int32_t skippedCount = that->getCompilationInfo()->getInterpSampleTrackingInfo()->findAndDelete(method);
                         if (skippedCount > 0)
                            {
                            // Enable SamplingJProfiling
@@ -10447,12 +10447,12 @@ void TR::CompilationInfoPerThreadBase::logCompilationSuccess(
 
          const char * prexString = compiler->usesPreexistence() ? " prex" : "";
 
-         int32_t profilingCount = 0, profilingFrequencey = 0, counter = 0;
+         int32_t profilingCount = 0, profilingFrequency = 0, counter = 0;
          if (compiler->isProfilingCompilation())
             {
             TR::Recompilation *recompInfo = compiler->getRecompilationInfo();
             profilingCount      = recompInfo->getProfilingCount();
-            profilingFrequencey = recompInfo->getProfilingFrequency();
+            profilingFrequency = recompInfo->getProfilingFrequency();
             counter             = recompInfo->getJittedBodyInfo()->getCounter(); // profiling invocation count
             }
 
@@ -10587,7 +10587,7 @@ void TR::CompilationInfoPerThreadBase::logCompilationSuccess(
 #endif
             if (TR::Options::getVerboseOption(TR_VerboseRecompile))
                {
-               TR_VerboseLog::write("%s [profiling c(%d), f(%d), ivc(%d)]", prexString, profilingCount, profilingFrequencey, counter);
+               TR_VerboseLog::write("%s [profiling c(%d), f(%d), ivc(%d)]", prexString, profilingCount, profilingFrequency, counter);
                }
 
             if (compiler->getOption(TR_CountOptTransformations) && compiler->getOption(TR_VerboseOptTransformations))
@@ -11631,7 +11631,7 @@ TR::CompilationInfo::storeAOTInSharedCache(
                 * TODO: We will always query the shared class cache to get full data for stored AOT compiled method
                 * that is combined meta data and code data. Even if compression of AOT bytes is disabled, we do not need
                 * to send two different buffers to store in cache and also as no one queries either code data / metadata for
-                * method, clean up the share classs cache API.
+                * method, clean up the share class cache API.
                 */
                const J9JITDataCacheHeader *aotMethodHeader = reinterpret_cast<const J9JITDataCacheHeader *>(dataStart);
                TR_AOTMethodHeader *aotMethodHeaderEntry = const_cast<TR_AOTMethodHeader *>(reinterpret_cast<const TR_AOTMethodHeader *>(aotMethodHeader + 1));
@@ -12010,7 +12010,7 @@ void TR_LowPriorityCompQueue::printStats() const
 
    fprintf(stderr, "   Conflicts        = %4u (tried to cache j9method that didn't have space)\n", _STAT_conflict);
    fprintf(stderr, "   Stale entries    = %4u\n", _STAT_staleScrubbed); // we want very few of these, hopefully 0
-   fprintf(stderr, "   Bypass ocurrences= %4u (normal comp req hapened before the fast LPQ comp req)\n", _STAT_bypass);
+   fprintf(stderr, "   Bypass occurrences= %4u (normal comp req happened before the fast LPQ comp req)\n", _STAT_bypass);
    }
 
 void TR_LowPriorityCompQueue::invalidateRequestsForUnloadedMethods(J9Class * unloadedClass)

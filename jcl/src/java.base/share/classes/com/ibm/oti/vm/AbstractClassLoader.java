@@ -326,7 +326,7 @@ public InputStream getResourceAsStream(String resName) {
 					if ((entry = zf.getEntry(resName)) != null) {
 						SecurityManager security = System.getSecurityManager();
 						if (security != null) {
-							initalizePermissions();
+							initializePermissions();
 							if (permissions[i] == null) {
 								setPermissionElement(i, new FilePermission(parsedPath[i], "read")); //$NON-NLS-1$
 							}
@@ -357,7 +357,7 @@ public InputStream getResourceAsStream(String resName) {
 	return null;
 }
 
-private void initalizePermissions() {
+private void initializePermissions() {
 	synchronized(cacheLock) {
 		if (permissions == null) {
 			permissions = new FilePermission[cache.length];

@@ -1771,8 +1771,8 @@ VMnonNullSrcWrtBarCardCheckEvaluator(
       bool isConstantHeapSize = !comp->getOptions()->isVariableHeapSizeForBarrierRange0();
       int32_t shiftAmount = TR::Compiler->om.compressedReferenceShift();
       TR::InstOpCode::Mnemonic opLoadReg = TR::InstOpCode::getLoadRegOpCode();
-      TR::InstOpCode::Mnemonic opSubtractReg = TR::InstOpCode::getSubstractRegOpCode();
-      TR::InstOpCode::Mnemonic opSubtract = TR::InstOpCode::getSubstractOpCode();
+      TR::InstOpCode::Mnemonic opSubtractReg = TR::InstOpCode::getSubtractRegOpCode();
+      TR::InstOpCode::Mnemonic opSubtract = TR::InstOpCode::getSubtractOpCode();
       TR::InstOpCode::Mnemonic opCmpLog = TR::InstOpCode::getCmpLogicalOpCode();
       bool disableSrcObjCheck = true; //comp->getOption(TR_DisableWrtBarSrcObjCheck);
       bool constantHeapCase = ((!comp->compileRelocatableCode()) && isConstantHeapBase && isConstantHeapSize && shiftAmount == 0 && (!is64Bit || TR::Compiler->om.generateCompressedObjectHeaders()));
@@ -1990,7 +1990,7 @@ VMCardCheckEvaluator(
          // Defect 91242 - If we can clobber the destination reg, then use owningObjectReg instead of cardOffReg.
          if (!clobberDstReg)
             generateRRInstruction(cg, TR::InstOpCode::getLoadRegOpCode(), node, cardOffReg, owningObjectReg);
-         generateRXInstruction(cg, TR::InstOpCode::getSubstractOpCode(), node, cardOffReg,
+         generateRXInstruction(cg, TR::InstOpCode::getSubtractOpCode(), node, cardOffReg,
                                generateS390MemoryReference(mdReg, offsetof(J9VMThread, heapBaseForBarrierRange0), cg));
 
          // Unless we know it's definitely a heap object, we need to check if offset
@@ -3178,11 +3178,11 @@ J9::Z::TreeEvaluator::arraylengthEvaluator(TR::Node *node, TR::CodeGenerator *cg
       // Load from discontiguousArraySize if contiguousArraySize is zero
       generateRXInstruction(cg, TR::InstOpCode::L, node, lengthReg, discontiguousArraySizeMR);
 
-      TR::Instruction* returnInsturction = generateS390BranchInstruction(cg, TR::InstOpCode::BRC, TR::InstOpCode::COND_BRC, node, oolReturnLabel);
+      TR::Instruction* returnInstruction = generateS390BranchInstruction(cg, TR::InstOpCode::BRC, TR::InstOpCode::COND_BRC, node, oolReturnLabel);
 
       if (cg->getDebug())
          {
-         cg->getDebug()->addInstructionComment(returnInsturction, "End of OOL arraylength sequence");
+         cg->getDebug()->addInstructionComment(returnInstruction, "End of OOL arraylength sequence");
          }
 
       outlinedDiscontigPath->swapInstructionListsWithCompilation();
@@ -6315,9 +6315,9 @@ reservationLockExit(TR::Node *node, int32_t lwOffset, TR::Register *objectClassR
       if (debugObj)
          {
          if (isPrimitive)
-            debugObj->addInstructionComment(instr, "Denotes end of OOL primitive reversation exit sequence: return to mainline");
+            debugObj->addInstructionComment(instr, "Denotes end of OOL primitive reservation exit sequence: return to mainline");
          else
-            debugObj->addInstructionComment(instr, "Denotes end of OOL non-primitive reversation exit sequence: return to mainline");
+            debugObj->addInstructionComment(instr, "Denotes end of OOL non-primitive reservation exit sequence: return to mainline");
          }
       outlinedSlowPath->swapInstructionListsWithCompilation(); // Toggle instruction list
       instr = generateS390LabelInstruction(cg,TR::InstOpCode::label,node,doneOOLLabel);
@@ -8430,7 +8430,7 @@ genInitObjectHeader(TR::Node * node, TR::Instruction *& iCursor, TR_OpaqueClassB
       }
    else
       {
-      TR_ASSERT(0, "genInitObjecHeader not supported for RT");
+      TR_ASSERT(0, "genInitObjectHeader not supported for RT");
       }
 
    }
@@ -11996,7 +11996,7 @@ void
 J9::Z::TreeEvaluator::generateLoadAndStoreForArrayCopy(TR::Node *node, TR::CodeGenerator *cg,
                                                        TR::MemoryReference *srcMemRef, TR::MemoryReference *dstMemRef,
                                                        TR_S390ScratchRegisterManager *srm,
-                                                       TR::DataType elenmentType, bool needsGuardedLoad,
+                                                       TR::DataType elementType, bool needsGuardedLoad,
                                                        TR::RegisterDependencyConditions* deps)
 
    {
@@ -12019,6 +12019,6 @@ J9::Z::TreeEvaluator::generateLoadAndStoreForArrayCopy(TR::Node *node, TR::CodeG
       }
    else
       {
-      OMR::TreeEvaluatorConnector::generateLoadAndStoreForArrayCopy(node, cg, srcMemRef, dstMemRef, srm, elenmentType, needsGuardedLoad, deps);
+      OMR::TreeEvaluatorConnector::generateLoadAndStoreForArrayCopy(node, cg, srcMemRef, dstMemRef, srm, elementType, needsGuardedLoad, deps);
       }
    }

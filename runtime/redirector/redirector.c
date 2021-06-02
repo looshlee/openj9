@@ -185,10 +185,10 @@ static BOOLEAN parseGCPolicy(char *buffer, int *value);
  */
 static void
 truncatePath(char *inputPath, BOOLEAN keepSlashChar) {
-	char *lastOccurence = strrchr(inputPath, DIR_SLASH_CHAR);
+	char *lastOccurrence = strrchr(inputPath, DIR_SLASH_CHAR);
 	/* strrchr() returns NULL if it cannot find the character */
-	if (NULL != lastOccurence) {
-		lastOccurence[keepSlashChar ? 1 : 0] = '\0';
+	if (NULL != lastOccurrence) {
+		lastOccurrence[keepSlashChar ? 1 : 0] = '\0';
 	}
 }
 
@@ -1418,10 +1418,10 @@ findDirContainingFile(J9StringBuffer *buffer, char *paths, char pathSeparator, c
 }
 
 J9StringBuffer*
-findDirUplevelToDirContainingFile(J9StringBuffer *buffer, char *pathEnvar, char pathSeparator, char *fileInPath, int upLevels)
+findDirUplevelToDirContainingFile(J9StringBuffer *buffer, char *pathEnvVar, char pathSeparator, char *fileInPath, int upLevels)
 {
 	/* Get the list of paths */
-	char *paths = getenv(pathEnvar);
+	char *paths = getenv(pathEnvVar);
 	if (NULL == paths) {
 		return NULL;
 	}

@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 public class TestUnsafeDefineAnonClass {
 	private static final int CLASS_UNLOADING_ITERATIONS = 100000;
 	private static final int CLASS_REFLECTION_ITERATIONS = 10000;
-	private static final int CLASSESS_KEPT_ALIVE_AT_ANY_TIME = 100;
+	private static final int CLASSES_KEPT_ALIVE_AT_ANY_TIME = 100;
 	public static final int CORRECT_ANSWER = 100;
 	
 	/**
@@ -43,7 +43,7 @@ public class TestUnsafeDefineAnonClass {
 	@Test(groups = { "level.sanity" })
 	public void testAnonClassUnloading() {
 		byte[] classBytes = DefineAnonClass.getClassBytesFromResource(BasicClass.class);
-		CircularBuffer<Class<?>> buf = new CircularBuffer<Class<?>>(CLASSESS_KEPT_ALIVE_AT_ANY_TIME);
+		CircularBuffer<Class<?>> buf = new CircularBuffer<Class<?>>(CLASSES_KEPT_ALIVE_AT_ANY_TIME);
 		for (int i = 0; i < CLASS_UNLOADING_ITERATIONS; i++) {
 			Class<?> anonClass = DefineAnonClass.callDefineAnonClass(TestUnsafeDefineAnonClass.class, classBytes, null);
 			
@@ -60,7 +60,7 @@ public class TestUnsafeDefineAnonClass {
 	@Test(groups = { "level.sanity" })
 	public void testAnonClassCodePaths() {
 		byte[] classBytes = DefineAnonClass.getClassBytesFromResource(BasicClass.class);
-		CircularBuffer<Class<?>> buf = new CircularBuffer<Class<?>>(CLASSESS_KEPT_ALIVE_AT_ANY_TIME);
+		CircularBuffer<Class<?>> buf = new CircularBuffer<Class<?>>(CLASSES_KEPT_ALIVE_AT_ANY_TIME);
 		for (int i = 0; i < CLASS_REFLECTION_ITERATIONS; i++) {
 			Class<?> anonClass = DefineAnonClass.callDefineAnonClass(TestUnsafeDefineAnonClass.class, classBytes, null);
 			runBasicClassTests(anonClass);
@@ -129,14 +129,14 @@ public class TestUnsafeDefineAnonClass {
 	 * @param fieldName, name of the field
 	 * @param anonInstance, instance of anonClass
 	 * @param anonClass, 
-	 * @param illegalAccess, set when IllegalAccessExcpetion is expected
+	 * @param illegalAccess, set when IllegalAccessException is expected
 	 * 
 	 */
 	private void testIntField(String fieldName, Object anonInstance, Class<?> anonClass, boolean illegalAccess) {
 		try {
 			Field f = anonClass.getDeclaredField(fieldName);
 			f.set(anonInstance, Integer.valueOf(CORRECT_ANSWER));
-			AssertJUnit.assertFalse("Expected IllegalAccessExcpetion, but exception did not occur!", illegalAccess);
+			AssertJUnit.assertFalse("Expected IllegalAccessException, but exception did not occur!", illegalAccess);
 			AssertJUnit.assertEquals("Field is not set to the correct value", CORRECT_ANSWER, f.getInt(anonInstance));
 		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException e) {
 			Assert.fail("UnexpectedException Occured: " + e);
@@ -152,20 +152,20 @@ public class TestUnsafeDefineAnonClass {
 	 * @param methodName, the name of the method
 	 * @param anonInstance, instance of the anonClass
 	 * @param anonClass
-	 * @param illegalAccess, set when IllegalAccessExcpetion is expected
+	 * @param illegalAccess, set when IllegalAccessException is expected
 	 * @param staticMethod, set when method is invoke on Class Object
 	 */
 	private void testIntMethod(String methodName, Object anonInstance, Class<?> anonClass, boolean illegalAccess, boolean staticMethod) {
 		try {
 			Method m = anonClass.getDeclaredMethod(methodName);
-			Object intanceOrClass;
+			Object instanceOrClass;
 			if (staticMethod) {
-				intanceOrClass = anonClass;
+				instanceOrClass = anonClass;
 			} else {
-				intanceOrClass = anonInstance;
+				instanceOrClass = anonInstance;
 			}
-			Integer result = (Integer) m.invoke(intanceOrClass, (Object[]) null);
-			AssertJUnit.assertFalse("Expected IllegalAccessExcpetion, but exception did not occur!", illegalAccess);
+			Integer result = (Integer) m.invoke(instanceOrClass, (Object[]) null);
+			AssertJUnit.assertFalse("Expected IllegalAccessException, but exception did not occur!", illegalAccess);
 			AssertJUnit.assertEquals("Method did not return the correct value", CORRECT_ANSWER, result.intValue());
 		} catch (InvocationTargetException | NoSuchMethodException | SecurityException | IllegalArgumentException e) {
 			Assert.fail("UnexpectedException Occured: " + e);
@@ -184,7 +184,7 @@ public class TestUnsafeDefineAnonClass {
 		try {
 			anonInstance = anonClass.newInstance();
 		} catch (IllegalAccessException | InstantiationException e1) {
-			Assert.fail("could not instansiate anonClass!");
+			Assert.fail("could not instantiate anonClass!");
 		}
 		
 		testIntField("staticField", anonInstance, anonClass, false);

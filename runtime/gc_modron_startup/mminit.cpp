@@ -93,10 +93,10 @@
 #if defined(J9VM_GC_VLHGC)
 #include "RememberedSetCardList.hpp"
 #endif /* J9VM_GC_VLHGC */
-#if defined(J9VM_GC_SEGRGATED_HEAP)
+#if defined(J9VM_GC_SEGREGATED_HEAP)
 #include "ObjectHeapIteratorSegregated.hpp"
 #include "SizeClasses.hpp"
-#endif /* J9VM_GC_SEGRGATED_HEAP */
+#endif /* J9VM_GC_SEGREGATED_HEAP */
 #if defined(J9VM_GC_REALTIME)
 #include "RememberedSetSATB.hpp"
 #endif /* J9VM_GC_REALTIME */
@@ -3055,7 +3055,7 @@ hookReleaseVMAccess(J9HookInterface** hook, UDATA eventNum, void* voidEventData,
 static void
 hookAcquiringExclusiveInNative(J9HookInterface** hook, UDATA eventNum, void* voidEventData, void* userData)
 {
-	J9VMAcquringExclusiveInNativeEvent* eventData = (J9VMAcquringExclusiveInNativeEvent*)voidEventData;
+	J9VMAcquiringExclusiveInNativeEvent* eventData = (J9VMAcquiringExclusiveInNativeEvent*)voidEventData;
 
 	J9VMThread *targetThread = eventData->targetThread;
 	MM_EnvironmentStandard *env = MM_EnvironmentStandard::getEnvironment(targetThread->omrVMThread);

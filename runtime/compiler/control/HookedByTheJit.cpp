@@ -2535,7 +2535,7 @@ static void jitHookInterruptCompilation(J9HookInterface * * hookInterface, UDATA
 
 // jitUpdateMethodOverride is called indirectly from updateCHTable
 //
-void jitUpdateMethodOverride(J9VMThread * vmThread, J9Class * cl, J9Method * overriddenMethod, J9Method * overriddingMethod)
+void jitUpdateMethodOverride(J9VMThread * vmThread, J9Class * cl, J9Method * overriddenMethod, J9Method * overridingMethod)
    {
    J9JITConfig * jitConfig = vmThread->javaVM->jitConfig;
 
@@ -2558,7 +2558,7 @@ void jitUpdateMethodOverride(J9VMThread * vmThread, J9Class * cl, J9Method * ove
       {
       jitAcquireClassTableMutex(vmThread);
       compInfo->getPersistentInfo()->getPersistentCHTable()->methodGotOverridden(
-                                                                                 vm, compInfo->persistentMemory(), (TR_OpaqueMethodBlock *) overriddingMethod, (TR_OpaqueMethodBlock *) overriddenMethod, isSMP);
+                                                                                 vm, compInfo->persistentMemory(), (TR_OpaqueMethodBlock *) overridingMethod, (TR_OpaqueMethodBlock *) overriddenMethod, isSMP);
       jitReleaseClassTableMutex(vmThread);
       }
    }
@@ -2568,7 +2568,7 @@ void jitUpdateMethodOverride(J9VMThread * vmThread, J9Class * cl, J9Method * ove
 static void updateOverriddenFlag( J9VMThread *vm , J9Class *cl)
    {
 
-   static const char *traceIt = 0; //  feGetEnv("TR_TraceUpdateOverridenFlag"); //this trace should only be enabled if it is needed
+   static const char *traceIt = 0; //  feGetEnv("TR_TraceUpdateOverriddenFlag"); //this trace should only be enabled if it is needed
 
    J9ROMClass *ROMCl = cl->romClass;
 
@@ -4410,7 +4410,7 @@ static void jitStateLogic(J9JITConfig * jitConfig, TR::CompilationInfo * compInf
             TR_BlockFrequencyInfo::enableJProfilingRecompilation();
             if (TR::Options::getCmdLineOptions()->isAnyVerboseOptionSet(TR_VerboseJitState, TR_VerboseCompileEnd, TR_VerbosePerformance))
                {
-               TR_VerboseLog::writeLineLocked(TR_Vlog_INFO,"Enabling JProfiling recompilation. recompileThrehold = %d loopRecompileThreshold = %d nestedLoopRecompileThreshold = %d", TR_JProfiling::recompileThreshold, TR_JProfiling::loopRecompileThreshold, TR_JProfiling::nestedLoopRecompileThreshold);
+               TR_VerboseLog::writeLineLocked(TR_Vlog_INFO,"Enabling JProfiling recompilation. recompileThreshold = %d loopRecompileThreshold = %d nestedLoopRecompileThreshold = %d", TR_JProfiling::recompileThreshold, TR_JProfiling::loopRecompileThreshold, TR_JProfiling::nestedLoopRecompileThreshold);
                }
             }
          }
@@ -4440,7 +4440,7 @@ static void jitStateLogic(J9JITConfig * jitConfig, TR::CompilationInfo * compInf
             }
           if (thresholdsLowered && TR::Options::getCmdLineOptions()->isAnyVerboseOptionSet(TR_VerboseJitState, TR_VerboseCompileEnd, TR_VerbosePerformance))
              {
-             TR_VerboseLog::writeLineLocked(TR_Vlog_INFO, "Lowering JProfiling recompilation thresholds. recompileThrehold = %d loopRecompileThreshold = %d nestedLoopRecompileThreshold = %d", TR_JProfiling::recompileThreshold, TR_JProfiling::loopRecompileThreshold, TR_JProfiling::nestedLoopRecompileThreshold);
+             TR_VerboseLog::writeLineLocked(TR_Vlog_INFO, "Lowering JProfiling recompilation thresholds. recompileThreshold = %d loopRecompileThreshold = %d nestedLoopRecompileThreshold = %d", TR_JProfiling::recompileThreshold, TR_JProfiling::loopRecompileThreshold, TR_JProfiling::nestedLoopRecompileThreshold);
              }
          }
       }*/
@@ -5150,7 +5150,7 @@ static void classLoadPhaseLogic(J9JITConfig * jitConfig, TR::CompilationInfo * c
 
             if (TR::Options::getCmdLineOptions()->getVerboseOption(TR_VerboseCLP))
                {
-               TR_VerboseLog::writeLineLocked(TR_Vlog_INFO,"ScalingFactor=%.2f Changed CLPTHreshold to %d secondaryCLPThreshold to %d", scalingFactor, newCLPThreshold, newSecondaryCLPThreshold);
+               TR_VerboseLog::writeLineLocked(TR_Vlog_INFO,"ScalingFactor=%.2f Changed CLPThreshold to %d secondaryCLPThreshold to %d", scalingFactor, newCLPThreshold, newSecondaryCLPThreshold);
                }
 
             // On some platforms, if application startup hints have NOT been used by now
@@ -6529,7 +6529,7 @@ int32_t setUpHooks(J9JavaVM * javaVM, J9JITConfig * jitConfig, TR_FrontEnd * vm)
          interpreterProfilingWasOnAtStartup = true;
 
          if (TR::Options::getCmdLineOptions()->getOption(TR_VerboseInterpreterProfiling))
-            j9tty_printf(PORTLIB, "Succesfully installed J9HOOK_VM_PROFILING_BYTECODE_BUFFER_FULL listener\n");
+            j9tty_printf(PORTLIB, "Successfully installed J9HOOK_VM_PROFILING_BYTECODE_BUFFER_FULL listener\n");
          }
 #endif
       if (compInfo->getPersistentInfo()->isRuntimeInstrumentationEnabled())

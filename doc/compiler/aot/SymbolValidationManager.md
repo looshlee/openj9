@@ -28,7 +28,7 @@ information for the AOT load infrastructure to validate all the
 assumptions made during the compile run, since the AOT load is 
 performed in a different JVM environment than the one the compilation
 was performed in. For these reasons, the Compiler and the Shared Class
-Cache (SCC) has infrastructure to facilate these validations.
+Cache (SCC) has infrastructure to facilitate these validations.
 
 Without the Symbol Validation Manager, the validations involves either
 creating a relocation record to validate an Arbitrary Class, a Class
@@ -40,7 +40,7 @@ depends on what the Class of that method "sees"). In order to deal
 with this, the compiler needs to know where the "beholder" Class comes
 from. The Symbol Validation Manager fixes this problem by making the
 answer to the question "where does this _whatever_ come from?" explicit
-and unambigious.
+and unambiguous.
 
 ## How it works
 
@@ -160,7 +160,7 @@ unambiguous.
 
 Because Primitive Classes (and their associated array classes) are always
 guaranteed to exist, and because the Root Class and method from root class
-have already been validated prior to even attempting to perfom the AOT
+have already been validated prior to even attempting to perform the AOT
 load, these symbols don't need to be validation records stored in 
 the SCC. Therefore, the SVM, in its constructor, initializes the maps
 with these IDs and the associated symbols.

@@ -284,7 +284,7 @@ typedef UDATA (* lookupNativeAddressCallback)(struct J9VMThread *currentThread, 
 				This hook serves similar purpose as J9HOOK_VM_RELEASEVMACCESS, to ensure that required work for thread in native
 				is performed before exclusive access is obtained. 
 		</description>
-		<struct>J9VMAcquringExclusiveInNativeEvent</struct>
+		<struct>J9VMAcquiringExclusiveInNativeEvent</struct>
 		<data type="struct J9VMThread*" name="currentThread" description="calling thread" />
 		<data type="struct J9VMThread*" name="targetThread" description="thread in native" />
 	</event>
@@ -729,7 +729,7 @@ typedef UDATA (* lookupNativeAddressCallback)(struct J9VMThread *currentThread, 
 	<event>
 		<name>J9HOOK_VM_CLASS_INITIALIZE</name>
 		<description>
-			Triggered just after a class is succesfully initialized.
+			Triggered just after a class is successfully initialized.
 			The current thread has VM access.
 		</description>
 		<struct>J9VMClassInitializeEvent</struct>
@@ -740,7 +740,7 @@ typedef UDATA (* lookupNativeAddressCallback)(struct J9VMThread *currentThread, 
 	<event>
 		<name>J9HOOK_VM_CLASS_INITIALIZE_FAILED</name>
 		<description>
-			Triggered just after a class is succesfully initialized.
+			Triggered just after a class is successfully initialized.
 			The current thread has VM access, and an exception is pending.
 		</description>
 		<struct>J9VMClassInitializeFailedEvent</struct>
@@ -751,7 +751,7 @@ typedef UDATA (* lookupNativeAddressCallback)(struct J9VMThread *currentThread, 
 	<event>
 		<name>J9HOOK_VM_CLASS_LOADER_INITIALIZED</name>
 		<description>
-			Triggered just after a classloader is succesfully initialized.
+			Triggered just after a classloader is successfully initialized.
 			The current thread has VM access.
 		</description>
 		<struct>J9VMClassLoaderInitializedEvent</struct>
@@ -921,7 +921,7 @@ typedef UDATA (* lookupNativeAddressCallback)(struct J9VMThread *currentThread, 
 			The name string does not persist beyond the reporting of this event - it must be copied by the listener if desired.
 
 			This hook may be called with or without VM access, may be called with exclusive VM access, and may be called
-			while internal VM mutexxes are held.
+			while internal VM mutexes are held.
 		</description>
 		<condition>defined (J9VM_INTERP_NATIVE_SUPPORT)</condition>
 		<struct>J9DynamicCodeLoadEvent</struct>
@@ -939,7 +939,7 @@ typedef UDATA (* lookupNativeAddressCallback)(struct J9VMThread *currentThread, 
 			Triggered when dynamic code is unloaded.
 
 			This hook may be called with or without VM access, may be called with exclusive VM access, and may be called
-			while internal VM mutexxes are held.
+			while internal VM mutexes are held.
 		</description>
 		<condition>defined (J9VM_INTERP_NATIVE_SUPPORT)</condition>
 		<struct>J9DynamicCodeUnloadEvent</struct>
@@ -1138,7 +1138,7 @@ typedef UDATA (* lookupNativeAddressCallback)(struct J9VMThread *currentThread, 
 		<description>This event is triggered when a the initial classpath for a classloader is ready </description>
 		<struct>J9VMClassloaderClassPathEntriesInitializedEvent</struct>
 		<data type="struct J9JavaVM*" name="vm" description="the Java VM" />
-		<data type="struct J9ClassLoader*" name="classLoader" description="ClassLoader for which the initalization is complete" />
+		<data type="struct J9ClassLoader*" name="classLoader" description="ClassLoader for which the initialization is complete" />
 	</event>
 
 	<event>

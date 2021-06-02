@@ -351,11 +351,11 @@ Currently only available on linux_x86 and win_x96 32 bit builds.</description>
 		</requires>
 	</flag>
 	<flag id="gc_enableDoubleMap">
-		<description>Set on double map. Allows LINUX systems to double map arrays that are stored as arraylets.
+		<description>Set on double map. Allows Linux systems to double map arrays that are stored as arraylets.
 When enabled, a contiguous block of memory is created for each array which data surpasses the size of a region. This contiguous block represents the array as
 if the data was stored in a contiguous region of memory. All of the array data will be stored at their own region (not with spine); hence, all arraylets
 become discontiguous whenever this flag is enabled. Since there won’t be any empty arraylet leaves, then arrayoid NULL pointers are no longer required since
-all data is stored in their own region. It additionaly reduces footprint, mainly for JNI primitive array critical.</description>
+all data is stored in their own region. It additionally reduces footprint, mainly for JNI primitive array critical.</description>
 		<ifRemoved></ifRemoved>
 		<requires>
 			<require flag="gc_vlhgc"/>
@@ -967,7 +967,7 @@ all data is stored in their own region. It additionaly reduces footprint, mainly
 		<ifRemoved>NO ROMable AOT Support for TJ Watson</ifRemoved>
 	</flag>
 	<flag id="interp_sigQuitThread">
-		<description>Controls if a separate thread handles SIGQUITsignal.</description>
+		<description>Controls if a separate thread handles SIGQUIT signal.</description>
 		<ifRemoved>platform cannot answer SIGQUIT.</ifRemoved>
 		<requires>
 			<require flag="interp_gpHandler"/>
@@ -1730,7 +1730,7 @@ Only available on zOS</description>
 		<ifRemoved>No dynamic loading of classes supported.</ifRemoved>
 	</flag>
 	<flag id="opt_fips">
-		<description>Add supports for FIPs</description>
+		<description>Add supports for FIPS</description>
 		<ifRemoved></ifRemoved>
 	</flag>
 	<flag id="opt_fragmentRamClasses">
@@ -2061,7 +2061,7 @@ Pass J9PORT_SIG_OPTIONS_ZOS_USE_CEEHDLR into j9sig_set_options()  before the fir
 		<description></description>
 		<ifRemoved></ifRemoved>
 	</flag>
-	<flag id="uma_supportsIpv6">
+	<flag id="uma_supportsIPv6">
 		<description>Supports IPv6</description>
 		<ifRemoved>No IPv6 support (NOTE: this is note universal, only need in CE/Linux specs)</ifRemoved>
 	</flag>

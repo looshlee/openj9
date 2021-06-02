@@ -109,7 +109,7 @@
 		Variation 1:
 			This variation runs tests in default mode.
 		Variation 2:
-			This variation runs test under -Xjit:count=1 option which makes sure that ConstantDynamic is resoleved before we compile a method
+			This variation runs test under -Xjit:count=1 option which makes sure that ConstantDynamic is resolved before we compile a method
 			to test JIT$(SQ)s handling of resolved constant dynamic
 		Variation 3:
 			This variation runs test under -Xjit:count=0 option means JIT faces unresolved constant dynamic and it needs to resolve them before
@@ -118,7 +118,7 @@
 			In addition to Variation 3 this test runs gc on resolving constant dynamic. This will test JIT to make sure it correctly prepares
 			GC map in code.
 		Variation 5:
-			This variation runs test under -XX:RecreateClassfileOnload option which means VM should first recreate an idential classfile with
+			This variation runs test under -XX:RecreateClassfileOnload option which means VM should first recreate an identical classfile with
 			classFileWriter and test with the recreated classfile. This should test if the classFileWriter is generating the correct classfile
 			output.
 	-->
