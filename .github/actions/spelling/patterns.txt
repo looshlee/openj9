@@ -88,5 +88,8 @@ j9
 # Java 2 SE
 J2SE|j2se
 
+# JB
+ JB
+
 # JCL
 JCL\s+- [0-9a-f]{7,11} based\b

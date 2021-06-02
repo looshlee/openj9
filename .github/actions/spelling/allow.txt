@@ -1,11 +1,20 @@
 
+aaload
 AArch
 aarch
+aastore
+abcdefghi
+abcdefghijklmno
 abended
 abi
 ABORTABLE
 abortonerror
 ABRT
+absgap
+abspath
+absptr
+ACCESSMODETYPE
+accessrule
 acee
 aceeflg
 acforobject
@@ -105,8 +114,10 @@ AFINET
 AFPR
 AFs
 afterelse
+AFXCE
 agentbase
 agentlib
+agentname
 agentpath
 agenttry
 AGFI
@@ -127,8 +138,10 @@ aiadd
 aidx
 AIE
 AIIZ
+AIndex
 AInfo
 aiob
+AIOOBE
 aix
 aixaot
 aixbaddep
@@ -510,6 +523,7 @@ astorage
 astorei
 astorew
 ASTYPE
+astype
 asub
 asxb
 asxbftcb
@@ -542,6 +556,7 @@ attacheddatacache
 attachlock
 ATTLIST
 attribs
+attributevaluemap
 attrlookup
 auipc
 autoblob
