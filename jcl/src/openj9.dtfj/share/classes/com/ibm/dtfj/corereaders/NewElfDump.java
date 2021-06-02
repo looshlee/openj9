@@ -1663,7 +1663,7 @@ public class NewElfDump extends CoreReaderSupport {
 				Set<String> libs = _file._librariesBySOName.get(soname);
 
 				if (libs == null || libs.isEmpty()) {
-					// use soname if we could't find something better in the file notes
+					// use soname if we couldn't find something better in the file notes
 					_additionalFileNames.add(soname);
 				} else {
 					_additionalFileNames.addAll(libs);
