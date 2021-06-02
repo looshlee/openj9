@@ -77,6 +77,7 @@ jclass=[0-9A-F]{16}
 
 # Registers
 \b(?:E[BIS]P|[CDES]S)=[0-9A-F]{8}\b
+\bR[0-3]=[0-9A-F]{16}\b
 
 # bdw
 \bBDW

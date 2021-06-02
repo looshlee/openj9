@@ -846,6 +846,8 @@ CConfig
 ccr
 ccristal
 ccv
+cdata
+cdc
 cde
 Ceecaa
 Ceedsahp
