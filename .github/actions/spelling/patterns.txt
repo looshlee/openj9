@@ -92,5 +92,6 @@ J2SE|j2se
 # JB
  JB
 
-# JCL
-JCL\s+- [0-9a-f]{7,11} based\b
+# builds
+(?:JCL|OpenJ9)\s+- [0-9a-f]{7,11}\b
+build master-[0-9a-f]{7,12},
