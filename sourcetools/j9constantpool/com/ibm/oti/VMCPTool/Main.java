@@ -376,7 +376,7 @@ public class Main implements Constants {
 		Map<String, ClassRef> classes = new HashMap<String, ClassRef>();
 		final int nodeCount = nodes.getLength();
 
-		// Find classrefs.
+		// Find ClassRefs.
 		for (int i = 0; i < nodeCount; ++i) {
 			Node node = nodes.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals(CLASSREF)) {
