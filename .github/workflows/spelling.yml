@@ -30,4 +30,5 @@ jobs:
           cspell:cpp/cpp.txt
           cspell:java/java.txt
           cspell:filetypes/filetypes.txt
+        check_extra_dictionaries: ''
         report_title_suffix: ${{matrix.category}}
