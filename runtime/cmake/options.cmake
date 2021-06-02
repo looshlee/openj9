@@ -126,7 +126,7 @@ option(J9VM_MODULE_ZLIB "Enables compilation of the zlib module.")
 j9vm_shadowed_option(J9VM_OPT_CUDA "Add support for CUDA")
 
 option(J9VM_OPT_DYNAMIC_LOAD_SUPPORT "Determines if the dynamic loader is included.")
-option(J9VM_OPT_FIPS "Add supports for FIPs")
+option(J9VM_OPT_FIPS "Add supports for FIPS")
 option(J9VM_OPT_FRAGMENT_RAM_CLASSES "Transitional flag for the GC during the switch to fragmented RAM class allocation")
 
 option(J9VM_OPT_JVMTI "Support for the JVMTI interface")
