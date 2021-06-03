@@ -208,7 +208,7 @@ private:
    static int _numConnectionsClosed;
    VersionCheckStatus _versionCheckStatus; // indicates whether a version checking has been performed
    static int _incompatibilityCount;
-   static uint64_t _incompatibleStartTime; // Time when version incomptibility has been detected
+   static uint64_t _incompatibleStartTime; // Time when version incompatibility has been detected
    static const uint64_t RETRY_COMPATIBILITY_INTERVAL_MS; // (ms) When we should perform again a version compatibilty check
    static const int INCOMPATIBILITY_COUNT_LIMIT;
 
