@@ -37,6 +37,7 @@ FJC
 FJJ
 FJMO
 FLC
+Flccvt
 forceinline
 Forclassloader
 FORGENERICINVOKEVARHANDLE
