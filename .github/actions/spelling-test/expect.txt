@@ -322,7 +322,6 @@ funcunsafe
 fvalue
 FVT
 Gabba
-gc'ed
 GC'ing
 gcchecktests
 GCed
@@ -388,7 +387,6 @@ hws
 hwuc
 hwvmargs
 hybridarraylet
-i'th
 IAdder
 IADDERIMPL
 IAddr
@@ -417,7 +415,6 @@ IHOB
 ijo
 illegalmode
 ILorg
-implmentation
 imxor
 INCREASINGUSLEEP
 indyn
@@ -877,6 +874,8 @@ PQPI
 Premaster
 prereqs
 presetdef
+presquare
+printdetails
 printstacktest
 printtoplayerstats
 Projid
